@@ -139,7 +139,7 @@ export const Footer = () => {
               </li>
               <li className="flex items-center space-x-3">
                 <Mail className="w-4 h-4 text-indigo-400 flex-shrink-0" />
-                <span>admissions@skyblip.academy</span>
+                <span>admissions@skyblip.com</span>
               </li>
             </ul>
           </div>
