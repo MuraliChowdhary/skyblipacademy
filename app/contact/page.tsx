@@ -77,7 +77,8 @@ export default function ContactPage() {
         <div>
           <label className="block text-sm font-medium text-gray-900">Phone Number</label>
           <input
-            type="tel"
+            required
+            type="number"
             className="w-full border p-2 rounded-md text-gray-700"
             value={formData.phone}
             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
