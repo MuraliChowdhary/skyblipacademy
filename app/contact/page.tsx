@@ -75,7 +75,7 @@ export default function ContactPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-900">Phone Number</label>
+          <label className="block text-sm font-medium text-gray-900">Phone Number *</label>
           <input
             required
             type="number"
