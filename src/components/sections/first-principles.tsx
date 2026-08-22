@@ -10,8 +10,7 @@ export function FirstPrinciplesSection() {
         <div className="max-w-2xl">
           {/* <p className="font-mono text-xs text-muted-foreground">04 · how we teach</p> */}
           <h2 className="mt-3 text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
-            We can&apos;t promise you a placement. We can promise you&apos;ll
-            actually think like an engineer.
+            We promise you&apos;ll think like an engineer. That&apos;s what actually gets you hired.
           </h2>
           <p className="mt-4 leading-relaxed text-muted-foreground">
             Anyone offering a guaranteed job is selling you something else.
