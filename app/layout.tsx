@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { ChatWidget } from '@/components/ChatWidget';
 import './globals.css';
+import { SiteHeader } from '@/components/layout/site-header';
+import { SiteFooter } from '@/components/layout/site-footer';
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: 'Sky Blip Academy - Modern Tech Programs with AI',
@@ -10,18 +13,17 @@ export const metadata: Metadata = {
     'Master fullstack web development, cybersecurity, and AI integration with 100% placement support at Sky Blip Academy.',
 };
 
-export default function RootLayout({
+export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className="bg-white text-slate-900 font-sans antialiased min-h-screen flex flex-col">
-        <Header />
+        <SiteHeader/>
         <main className="flex-1">{children}</main>
-        <Footer />
-        <ChatWidget />
+        <SiteFooter/>
       </body>
     </html>
   );
