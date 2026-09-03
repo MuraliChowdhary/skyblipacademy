@@ -101,17 +101,17 @@ enum OrderStatus {
 }
 
 model Order {
-  id             String      @id @default(cuid())
-  userId         String
-  courseId       String
-  amountCents    Int
-  currency       String
-  status         OrderStatus @default(PENDING)
+  id          String      @id @default(cuid())
+  userId      String
+  courseId    String
+  amountCents Int
+  currency    String
+  status      OrderStatus @default(PENDING)
 
   // Client-generated, one per checkout attempt. The upsert-on-conflict
   // pattern in enrollment.service.ts uses this to make retried/double-
   // clicked checkout requests return the original order, not a duplicate.
-  idempotencyKey String      @unique
+  idempotencyKey String @unique
 
   // Payment gateway correlation IDs — also unique, so a webhook that
   // fires twice for the same gateway event can never process twice.

@@ -6,9 +6,11 @@ import { Button } from "@/src/components/ui/button";
 import { MobileNav } from "@/src/components/layout/mobile-nav";
 import { NAV_LINKS } from "@/src/lib/data";
 import { cn } from "@/src/lib/utils";
+import { useCurrentUser } from "@/src/hooks/session";
 
 export function SiteHeader() {
   const pathname = usePathname();
+const { user, isLoading, isAuthenticated } = useCurrentUser();
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
@@ -37,11 +39,13 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
-          <Button size="lg">
-            <Link href="/login">Login / Signup</Link>
-          </Button>
-        </div>
+       <div className="hidden items-center gap-3 lg:flex"> 
+        {isLoading ? ( <div className="h-10 w-28 animate-pulse rounded-md bg-muted" /> ) : 
+        isAuthenticated ? ( <> <span className="text-sm"> {user?.name ?? user?.email} </span> 
+        <Button size="lg"> <Link href="/dashboard"> Dashboard </Link>
+         </Button> </> ) : ( 
+          <Button size="lg"> <Link href="/login"> Login / Signup </Link> </Button> )} 
+       </div>
 
         <MobileNav />
       </div>
