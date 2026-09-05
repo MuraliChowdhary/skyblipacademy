@@ -46,10 +46,12 @@ export async function registerUser(input: unknown) {
   const passwordHash = await hashPassword(data.password);
 
   try {
+
     const user = await userRepository.create(prisma, {
       name: data.name,
       email: data.email,
       passwordHash,
+      phone: data.phone
     });
     logger.info({ userId: user.id }, "user.registered");
     return user;

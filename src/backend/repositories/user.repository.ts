@@ -17,6 +17,7 @@ const PUBLIC_SELECT = {
   id: true,
   name: true,
   email: true,
+  phone:true,
   role: true,
   createdAt: true,
 } as const;
@@ -35,10 +36,10 @@ export function updatePasswordHash(db: Db, id: string, passwordHash: string) {
 
 export function create(
   db: Db,
-  data: { name: string; email: string; passwordHash: string },
+  data: { name: string; email: string; passwordHash: string, phone: string},
 ) {
   return db.user.create({
     data,
-    select: { id: true, name: true, email: true, createdAt: true },
+    select: { id: true, name: true, email: true, phone: true, createdAt: true },
   });
 }

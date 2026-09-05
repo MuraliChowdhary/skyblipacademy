@@ -6,6 +6,7 @@ import { Geist } from "next/font/google";
 import { cn } from "@/src/lib/utils";
 import { AppSessionProvider } from '../components/providers/app-session-provider';
 import { Toaster } from '../components/ui/toast';
+import { AppQueryProvider } from '../context/query-provider';
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -24,8 +25,10 @@ export default function MainLayout({
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className="bg-white text-slate-900 font-sans antialiased min-h-screen flex flex-col">
         <AppSessionProvider>
+          <AppQueryProvider>
            <main className="flex-1">{children}</main>
            <Toaster/>
+           </AppQueryProvider>
         </AppSessionProvider>
       </body>
     </html>

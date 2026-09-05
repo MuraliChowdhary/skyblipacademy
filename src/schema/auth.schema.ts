@@ -5,6 +5,9 @@ import { z } from "zod";
 export const registerSchema = z.object({
   name: z.string().trim().min(2, "Name is too short").max(80),
   email: z.string().trim().toLowerCase().email("Enter a valid email"),
+  phone : z.string().regex(/^\+?[1-9]\d{1,14}$/, {
+          message: "Invalid phone number format",
+        }),
   password: z
     .string()
     .min(10, "Use at least 10 characters")
