@@ -16,20 +16,25 @@ datasource db {
 
 // ---------- Auth (NextAuth / Auth.js v5 Prisma adapter shape) ----------
 
+enum UserRole {
+  STUDENT
+  ADMIN
+}
+
 model User {
-  id            String    @id @default(cuid())
+  id            String       @id @default(cuid())
   name          String
-  email         String    @unique
+  email         String       @unique
   passwordHash  String? // null for OAuth-only accounts
   emailVerified DateTime?
   image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-  accounts    Account[]
-  sessions    Session[]
-  orders      Order[]
-  enrollments Enrollment[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  role          UserRole     @default(STUDENT)
+  accounts      Account[]
+  sessions      Session[]
+  orders        Order[]
+  enrollments   Enrollment[]
 
   @@index([email])
 }

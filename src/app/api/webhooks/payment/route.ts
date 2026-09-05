@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import { NextResponse } from "next/server";
 import { logger } from "@/src/lib/logger";
-import { confirmPayment } from "@/src/backend/services/enrollment.service";
+import { confirmPayment } from "@/src/backend/services/order.service";
 
 /**
  * Verifies the raw request body against Razorpay's HMAC-SHA256 signature.

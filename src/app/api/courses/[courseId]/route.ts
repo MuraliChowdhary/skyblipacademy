@@ -1,17 +1,25 @@
-import { getCourse } from "@/src/backend/courses/getCouse";
+import { auth } from "@/src/lib/auth";
+import { requireAdmin } from "@/src/lib/require-admin";
 import { withApiHandler } from "@/src/lib/api-handler";
-import { AppError } from "@/src/lib/errors";
+import * as courseService from "@/src/backend/services/course.service";
 
 type Params = { courseId: string };
 
-export const GET = withApiHandler<Params>(async(req,{ params }) =>{
+export const GET = withApiHandler<Params>(async (_req, { params }) => {
+  const session = await auth();
+  const { courseId } = await params;
+  return courseService.getCourseDetail(courseId, session?.user?.role);
+});
 
-    const {courseId} = await params;
-    const course = await getCourse(courseId);
+export const PATCH = withApiHandler<Params>(async (req, { params }) => {
+  requireAdmin(await auth());
+  const { courseId } = await params;
+  const body = await req.json();
+  return courseService.updateCourse(courseId, body);
+});
 
-    if(!course){
-        throw new AppError("NOT_FOUND","Course not found",404);
-    }
-    
-    return course;
-})
+export const DELETE = withApiHandler<Params>(async (_req, { params }) => {
+  requireAdmin(await auth());
+  const { courseId } = await params;
+  return courseService.unpublishCourse(courseId);
+});

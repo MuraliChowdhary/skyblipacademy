@@ -126,11 +126,14 @@ export default function CoursesPage() {
                 Full program access
               </p>
 
-              <Button  className="mt-6 w-full">
-                <Link href={`/courses/${course.id}`}>
-                  View Course
-                </Link>
-              </Button>
+              <Link
+                    href={`/courses/${course.id}`}
+                    className="mt-6 flex w-full items-center justify-center"
+                  >
+                    <Button className="w-full">
+                      View Course
+                    </Button>
+                  </Link>
             </div>
           </article>
         ))}

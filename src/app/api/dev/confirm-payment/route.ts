@@ -2,26 +2,16 @@ import { NextResponse } from "next/server";
 import { withApiHandler } from "@/src/lib/api-handler";
 import { AppError } from "@/src/lib/errors";
 import { prisma } from "@/src/lib/prisma";
-import { confirmPayment } from "@/src/backend/services/enrollment.service";
+import * as orderRepository from "@/src/backend/repositories/order.repository";
+import { confirmPayment } from "@/src/backend/services/order.service";
 
 /**
- * Local-testing convenience only: lets you confirm a payment via Postman
- * without a real Razorpay account or a valid webhook signature. Hard
- * guard on NODE_ENV — this must never exist in a deployed environment,
- * since it's an unauthenticated way to mark any order as paid.
- *
- * Usage: POST /api/dev/confirm-payment
- *   { "orderId": "<id from the purchase response>" }
- *
- * Takes your internal orderId (not a real Razorpay id) and assigns it a
- * synthetic gatewayOrderId if it doesn't have one yet, then runs the
- * exact same confirmPayment path the real webhook uses — this exercises
- * the actual compare-and-swap logic, not a fake shortcut around it.
+ * Local-testing convenience only — see README. Hard-blocked outside
+ * development so this unauthenticated "mark anything as paid" shortcut
+ * can never exist in a deployed environment.
  */
 export const POST = withApiHandler(async (req) => {
   if (process.env.NODE_ENV === "production") {
-    // Deliberately a generic 404, not a 403 — don't reveal this route
-    // exists at all in a production build.
     throw new AppError("NOT_FOUND", "Not found.", 404);
   }
 
@@ -30,16 +20,10 @@ export const POST = withApiHandler(async (req) => {
     throw new AppError("INVALID_BODY", "orderId is required.", 400);
   }
 
-  const order = await prisma.order.findUniqueOrThrow({
-    where: { id: body.orderId },
-  });
-
+  const order = await orderRepository.findById(prisma, body.orderId);
   const gatewayOrderId = order.gatewayOrderId ?? `dev_order_${order.id}`;
   if (!order.gatewayOrderId) {
-    await prisma.order.update({
-      where: { id: order.id },
-      data: { gatewayOrderId },
-    });
+    await orderRepository.setGatewayOrderId(prisma, order.id, gatewayOrderId);
   }
 
   return confirmPayment(gatewayOrderId, `dev_payment_${crypto.randomUUID()}`);

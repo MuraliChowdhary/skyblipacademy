@@ -1,14 +1,6 @@
-import { Prisma } from "../generated/prisma/client";
+import { NextResponse } from "next/server";
+import { ZodError } from "zod";
 
-
-
-/**
- * A known, expected failure with a stable machine-readable `code` — these
- * are the errors the client is meant to branch on ("EMAIL_TAKEN" shows a
- * specific inline message; a raw 500 does not). Anything that isn't an
- * AppError is treated as a bug and gets logged at "error" level with a
- * generic message returned to the client — never leak internals.
- */
 export class AppError extends Error {
   constructor(
     public readonly code: string,
@@ -21,22 +13,189 @@ export class AppError extends Error {
 }
 
 /**
- * Prisma's P2002 is "unique constraint violated" — this is how we detect
- * that we lost a race to a concurrent request, rather than treating it as
- * an unexpected crash. `field` should match a column in the constraint
- * (Prisma reports the target columns in `meta.target`).
+ * Safely extracts an error code from an unknown error.
+ *
+ * We don't use `instanceof PrismaClientKnownRequestError` here because
+ * Prisma adapter/runtime errors can cross module boundaries and may not
+ * always pass an instanceof check.
  */
-export function isUniqueConstraintError(err: unknown, field: string): boolean {
-  return (
-    err instanceof Prisma.PrismaClientKnownRequestError &&
-    err.code === "P2002" &&
-    Array.isArray(err.meta?.target) &&
-    (err.meta!.target as string[]).includes(field)
-  );
+function getErrorCode(error: unknown): string | undefined {
+  if (
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error
+  ) {
+    const code = (error as { code?: unknown }).code;
+
+    return typeof code === "string" ? code : undefined;
+  }
+
+  return undefined;
 }
 
-export function isRecordNotFoundError(err: unknown): boolean {
-  return (
-    err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2025"
+/**
+ * Determines whether an error means Prisma cannot establish/reach
+ * the database connection.
+ *
+ * P1001 = Can't reach database server
+ * P1002 = Database server timed out
+ */
+export function isDatabaseUnavailableError(
+  error: unknown,
+): boolean {
+  const code = getErrorCode(error);
+
+  return code === "P1001" || code === "P1002";
+}
+
+/**
+ * Prisma P2002 = unique constraint violation.
+ */
+export function isUniqueConstraintError(
+  error: unknown,
+  field?: string,
+): boolean {
+  if (getErrorCode(error) !== "P2002") {
+    return false;
+  }
+
+  // If no field is provided, any P2002 is considered unique violation.
+  if (!field) {
+    return true;
+  }
+
+  if (
+    typeof error === "object" &&
+    error !== null &&
+    "meta" in error
+  ) {
+    const meta = (error as {
+      meta?: Record<string, unknown>;
+    }).meta;
+
+    const target = meta?.target;
+
+    if (Array.isArray(target)) {
+      return target.includes(field);
+    }
+  }
+
+  /*
+   * Prisma 7 + driver adapters may not expose meta.target
+   * consistently. P2002 is still sufficient to identify the
+   * unique constraint violation.
+   */
+  return true;
+}
+
+/**
+ * Prisma P2025 = record required but not found.
+ */
+export function isRecordNotFoundError(
+  error: unknown,
+): boolean {
+  return getErrorCode(error) === "P2025";
+}
+
+/**
+ * Converts application/infrastructure errors into a consistent
+ * HTTP response.
+ */
+export function handleAllErrors(
+  error: unknown,
+): Response {
+  // Application errors
+  if (error instanceof AppError) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: {
+          code: error.code,
+          message: error.message,
+        },
+      },
+      {
+        status: error.statusCode,
+      },
+    );
+  }
+
+  // Validation errors
+  if (error instanceof ZodError) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: {
+          code: "VALIDATION_ERROR",
+          message: "The request body failed validation.",
+          issues: error.issues,
+        },
+      },
+      {
+        status: 422,
+      },
+    );
+  }
+
+  // Database unavailable
+  if (isDatabaseUnavailableError(error)) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: {
+          code: "DATABASE_UNAVAILABLE",
+          message: "The database is currently unavailable.",
+        },
+      },
+      {
+        status: 503,
+      },
+    );
+  }
+
+  // Unique constraint
+  if (isUniqueConstraintError(error)) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: {
+          code: "CONFLICT",
+          message: "A record with this value already exists.",
+        },
+      },
+      {
+        status: 409,
+      },
+    );
+  }
+
+  // Record not found
+  if (isRecordNotFoundError(error)) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: {
+          code: "NOT_FOUND",
+          message: "The requested record was not found.",
+        },
+      },
+      {
+        status: 404,
+      },
+    );
+  }
+
+  // Unknown/unexpected error
+  return NextResponse.json(
+    {
+      success: false,
+      error: {
+        code: "INTERNAL_ERROR",
+        message: "Something went wrong.",
+      },
+    },
+    {
+      status: 500,
+    },
   );
 }

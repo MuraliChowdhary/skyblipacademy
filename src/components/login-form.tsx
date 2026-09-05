@@ -14,6 +14,8 @@ import {
   FieldSeparator,
 } from "@/src/components/ui/field";
 import { Input } from "@/src/components/ui/input";
+import { toast } from "./ui/toast";
+import Link from "next/link";
 
 export function LoginForm({
   className,
@@ -23,65 +25,128 @@ export function LoginForm({
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  event.preventDefault();
+  setIsSubmitting(true);
 
+  try {
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (result?.error) {
+      if (
+        result.error === "CredentialsSignin" &&
+        result.code === "DATABASE_UNAVAILABLE"
+      ) {
+        toast.add({
+          title: "Database unavailable",
+          type: "error",
+          description: "The database is currently unavailable. Please try again later.",
+        });
+      } else if (result.error === "CredentialsSignin") {
+        toast.add({
+          title: "Sign in failed",
+          type: "error",
+          description: "Incorrect email or password.",
+        });
+      } else {
+        toast.add({
+          title: "Sign in failed",
+          type: "error",
+          description: "Unable to sign in. Please try again.",
+        });
+      }
+
+      return;
+    }
+
+    if (!result?.ok) {
+      toast.add({
+        title: "Sign in failed",
+        description: "Unable to sign in. Please try again.",
+      });
+
+      return;
+    }
+    toast.add({
+      title:'Login Successfull',
+      type:'success',
+      description:'Welcome back!'
+    })
+    router.push("/dashboard");
+    router.refresh();
+  } catch (error) {
+    console.error("Login error:", error);
+
+    toast.add({
+      title: "Something went wrong",
+      description: "Please try again later.",
+    });
+  } finally {
+    setIsSubmitting(false);
+  }
+}
+
+  async function handleGoogleLogin() {
     setError(null);
     setIsSubmitting(true);
 
     try {
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
+      await signIn("google", {
+        callbackUrl: "/dashboard",
       });
+    } catch (error) {
+      console.error("Google login error:", error);
 
-      if (result?.error) {
-        setError("Incorrect email or password.");
-        return;
-      }
+      setError(
+        "Unable to sign in with Google. Please try again.",
+      );
 
-      router.push("/dashboard");
-      router.refresh();
-    } catch {
-      setError("Something went wrong. Please try again.");
-    } finally {
       setIsSubmitting(false);
     }
   }
 
-  async function handleGoogleLogin() {
-    await signIn("google", {
-      callbackUrl: "/dashboard",
-    });
-  }
-
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div
+      className={cn(
+        "flex flex-col gap-6",
+        className,
+      )}
+      {...props}
+    >
       <form onSubmit={handleSubmit}>
         <FieldGroup>
           <div className="flex flex-col items-center gap-2 text-center">
-            <a
+            <Link
               href="/"
               className="flex flex-col items-center gap-2 font-medium"
             >
-              <span className="sr-only">SkyBlip Academy</span>
-            </a>
+              <span className="sr-only">
+                SkyBlip Academy
+              </span>
+            </Link>
 
             <h1 className="text-xl font-bold">
               Welcome to SkyBlip Academy.
             </h1>
 
             <FieldDescription>
-              Don&apos;t have an account? <a href="/signup">Sign up</a>
+              Don&apos;t have an account?{" "}
+              <a href="/signup">Sign up</a>
             </FieldDescription>
           </div>
 
           <Field>
-            <FieldLabel htmlFor="email">Email</FieldLabel>
+            <FieldLabel htmlFor="email">
+              Email
+            </FieldLabel>
 
             <Input
               id="email"
@@ -90,13 +155,17 @@ export function LoginForm({
               required
               autoComplete="email"
               value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              onChange={(event) =>
+                setEmail(event.target.value)
+              }
               disabled={isSubmitting}
             />
           </Field>
 
           <Field>
-            <FieldLabel htmlFor="password">Password</FieldLabel>
+            <FieldLabel htmlFor="password">
+              Password
+            </FieldLabel>
 
             <Input
               id="password"
@@ -105,7 +174,9 @@ export function LoginForm({
               required
               autoComplete="current-password"
               value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              onChange={(event) =>
+                setPassword(event.target.value)
+              }
               disabled={isSubmitting}
             />
           </Field>
@@ -113,6 +184,7 @@ export function LoginForm({
           {error && (
             <p
               role="alert"
+              aria-live="polite"
               className="text-sm text-red-600"
             >
               {error}
@@ -125,11 +197,15 @@ export function LoginForm({
               disabled={isSubmitting}
               className="bg-black text-white hover:bg-gray-600 hover:text-white"
             >
-              {isSubmitting ? "Signing in..." : "Login"}
+              {isSubmitting
+                ? "Signing in..."
+                : "Login"}
             </Button>
           </Field>
 
-          <FieldSeparator>Or</FieldSeparator>
+          <FieldSeparator>
+            Or
+          </FieldSeparator>
 
           <Field className="grid gap-4 sm:grid-cols-1">
             <Button

@@ -5,6 +5,7 @@ import { SiteFooter } from '@/src/components/layout/site-footer';
 import { Geist } from "next/font/google";
 import { cn } from "@/src/lib/utils";
 import { AppSessionProvider } from '../components/providers/app-session-provider';
+import { Toaster } from '../components/ui/toast';
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -24,6 +25,7 @@ export default function MainLayout({
       <body className="bg-white text-slate-900 font-sans antialiased min-h-screen flex flex-col">
         <AppSessionProvider>
            <main className="flex-1">{children}</main>
+           <Toaster/>
         </AppSessionProvider>
       </body>
     </html>

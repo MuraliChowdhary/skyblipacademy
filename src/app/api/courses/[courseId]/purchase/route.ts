@@ -1,4 +1,4 @@
-import { createOrder } from "@/src/backend/services/enrollment.service";
+import { createOrder } from "@/src/backend/services/order.service";
 import { withApiHandler } from "@/src/lib/api-handler";
 import { auth } from "@/src/lib/auth";
 import { AppError } from "@/src/lib/errors";

@@ -71,6 +71,7 @@ export default auth((req) => {
 
 export const config = {
   matcher: [
+    "/register",
     "/login",
     "/api/:path*",
     "/dashboard/:path*",

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from "vitest";
 import { randomUUID } from "node:crypto";
-import { createOrder, confirmPayment } from "@/src/backend/services/enrollment.service";
+import { createOrder, confirmPayment } from "@/src/backend/services/order.service";
 import { prisma } from "@/src/lib/prisma";
 
 

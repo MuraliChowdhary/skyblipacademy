@@ -44,7 +44,10 @@ const { user, isLoading, isAuthenticated } = useCurrentUser();
         isAuthenticated ? ( <> <span className="text-sm"> {user?.name ?? user?.email} </span> 
         <Button size="lg"> <Link href="/dashboard"> Dashboard </Link>
          </Button> </> ) : ( 
-          <Button size="lg"> <Link href="/login"> Login / Signup </Link> </Button> )} 
+           <Link href="/login"> 
+            <Button size="lg">Login / Signup</Button>
+            </Link>  )
+        } 
        </div>
 
         <MobileNav />
