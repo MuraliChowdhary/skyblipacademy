@@ -535,9 +535,7 @@ export function useDeleteAccount() {
       confirmation: "DELETE";
       password?: string;
     }) =>
-      apiClient.delete("/api/me", {
-        body: input,
-      }),
+      apiClient.delete("/api/me"),
 
     onSuccess: () => {
       toast.add({
