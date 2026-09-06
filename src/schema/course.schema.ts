@@ -16,3 +16,11 @@ export const updateCourseSchema = createCourseSchema
     message: "At least one field is required.",
   });
 export type UpdateCourseInput = z.infer<typeof updateCourseSchema>;
+
+
+export const lessonSchema = z.object({
+  status: z.enum(["NOT_STARTED", "IN_PROGRESS", "COMPLETED"]).optional(),
+  videoPositionSeconds: z.number().int().min(0).optional(),
+});
+
+export type LessonSchemainput = z.infer<typeof lessonSchema>

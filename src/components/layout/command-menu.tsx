@@ -2,7 +2,9 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+
 import {
+  Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
@@ -10,7 +12,11 @@ import {
   CommandItem,
   CommandList,
 } from "@/src/components/ui/command";
-import { STUDENT_NAV, ADMIN_NAV } from "@/src/components/layout/nav-config";
+
+import {
+  navItems,
+  ADMIN_NAV,
+} from "@/src/components/layout/nav-config";
 
 type Role = "STUDENT" | "ADMIN";
 
@@ -24,7 +30,8 @@ export function CommandMenu({
   onOpenChange: (open: boolean) => void;
 }) {
   const router = useRouter();
-  const items = role === "ADMIN" ? ADMIN_NAV : STUDENT_NAV;
+
+  const items = role === "ADMIN" ? ADMIN_NAV : navItems;
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -33,8 +40,12 @@ export function CommandMenu({
         onOpenChange(!open);
       }
     }
+
     document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, [open, onOpenChange]);
 
   function go(href: string) {
@@ -43,19 +54,31 @@ export function CommandMenu({
   }
 
   return (
-    <CommandDialog open={open} onOpenChange={onOpenChange}>
-      <CommandInput placeholder="Jump to a page..." />
-      <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup heading="Navigate">
-          {items.map((item) => (
-            <CommandItem key={item.href} onSelect={() => go(item.href)}>
-              <item.icon className="mr-2 h-4 w-4" />
-              {item.title}
-            </CommandItem>
-          ))}
-        </CommandGroup>
-      </CommandList>
+    <CommandDialog
+      open={open}
+      onOpenChange={onOpenChange}
+    >
+      <Command>
+        <CommandInput placeholder="Jump to a page..." />
+
+        <CommandList>
+          <CommandEmpty>
+            No results found.
+          </CommandEmpty>
+
+          <CommandGroup heading="Navigate">
+            {items.map((item) => (
+              <CommandItem
+                key={item.href}
+                onSelect={() => go(item.href)}
+              >
+                <item.icon className="mr-2 h-4 w-4" />
+                {item.label}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </CommandList>
+      </Command>
     </CommandDialog>
   );
 }

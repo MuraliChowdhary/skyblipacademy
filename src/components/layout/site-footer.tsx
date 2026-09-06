@@ -27,11 +27,12 @@ export function SiteFooter() {
           </h3>
           <ul className="mt-4 space-y-2.5 text-sm">
             {NAV_LINKS.map((link) => (
-              <li key={link.name} className="hover:underline">
+                <li key={link.name} className="hover:underline">
                 <Link href={link.href} className="text-muted-foreground hover:text-foreground">
                   {link.name}
                 </Link>
               </li>
+           
             ))}
           </ul>
         </div>

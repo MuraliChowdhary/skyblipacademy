@@ -11,21 +11,32 @@ import {
 } from "lucide-react";
 
 export type NavItem = {
-  title: string;
+  // title: string;
   href: string;
   icon: LucideIcon;
+  label:string;
 };
 
-export const STUDENT_NAV: NavItem[] = [
-  { title: "Home", href: "/dashboard", icon: Home },
-  { title: "My Learning", href: "/dashboard/courses", icon: GraduationCap },
-  { title: "Purchases", href: "/dashboard/orders", icon: Receipt },
-  { title: "Account", href: "/dashboard/profile", icon: UserCircle },
+import {
+  PlayCircle,
+  Bookmark,
+  History,
+  User,
+} from "lucide-react";
+
+export const navItems = [
+  { label: "Home", href: "/dashboard", icon: Home },
+  { label: "My Courses", href: "/dashboard/my-learning", icon: BookOpen },
+  { label: "Continue Learning", href: "/dashboard/continue", icon: PlayCircle },
+  { label: "Bookmarks", href: "/dashboard/bookmarks", icon: Bookmark },
+  { label: "History", href: "/dashboard/history", icon: History },
+  { label: "Purchases", href: "/dashboard/purchases", icon: Receipt },
+  { label: "Account", href: "/dashboard/account", icon: User },
 ];
 
 export const ADMIN_NAV: NavItem[] = [
-  { title: "Overview", href: "/admin", icon: LayoutDashboard },
-  { title: "Courses", href: "/admin/courses", icon: BookOpen },
-  { title: "Transactions", href: "/admin/orders", icon: CreditCard },
-  { title: "Learners", href: "/admin/users", icon: Users },
+  { label: "Overview", href: "/admin", icon: LayoutDashboard },
+  { label: "Courses", href: "/admin/courses", icon: BookOpen },
+  { label: "Transactions", href: "/admin/orders", icon: CreditCard },
+  { label: "Learners", href: "/admin/users", icon: Users },
 ];

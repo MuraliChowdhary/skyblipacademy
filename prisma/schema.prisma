@@ -36,6 +36,8 @@ model User {
   orders      Order[]
   enrollments Enrollment[]
   LessonProgress  LessonProgress[]
+  Submission    Submission[]
+  Bookmark      Bookmark[]
   @@index([email])
 }
 
@@ -184,24 +186,44 @@ enum VideoStatus {
   PUBLISHED
 }
 
+enum LessonKind {
+  STANDALONE // a normal leaf lesson — has its own content/video, no children
+  OVERVIEW   // a landing page that lists child topics, e.g. "Developer Foundations"
+  TOPIC      // a child under an OVERVIEW lesson, e.g. "Dev Environment & Tooling"
+}
+
 model Lesson {
-  id            String        @id @default(cuid())
-  moduleId      String
-  slug          String
-  title         String
-  order         Int
-  contentStatus ContentStatus @default(DRAFT)
-  videoStatus   VideoStatus   @default(NOT_RECORDED)
-  videoUrl      String?
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  id               String        @id @default(cuid())
+  moduleId         String
+  parentId         String?       // null = top-level; set = nested under an OVERVIEW lesson
+  slug             String
+  title            String
+  order            Int
+  kind             LessonKind    @default(STANDALONE)
+  contentStatus    ContentStatus @default(DRAFT)
+  videoStatus      VideoStatus   @default(NOT_RECORDED)
+  videoUrl         String?
+  notionUrl        String?               // source of truth for the full write-up, for now
+  learningGoals    String[]              // short "what you'll learn" bullets — structured, not full content
+  estimatedMinutes Int?
+  keyTakeaways String[]
+  contentBody  String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
 
-  module   Module            @relation(fields: [moduleId], references: [id])
+  module   Module           @relation(fields: [moduleId], references: [id])
+  parent   Lesson?          @relation("LessonChildren", fields: [parentId], references: [id])
+  children Lesson[]         @relation("LessonChildren")
   progress LessonProgress[]
+  wrapUpQuestions WrapUpQuestion[]
+  wrapUpKeyTerms  WrapUpKeyTerm[]
+  Assignment      Assignment[]
+  Bookmark        Bookmark[]
 
-  @@unique([moduleId, order])
+  @@unique([moduleId, parentId, order])
   @@unique([moduleId, slug])
   @@index([moduleId])
+  @@index([parentId])
 }
 
 enum ProgressStatus {
@@ -225,6 +247,103 @@ model LessonProgress {
   // Same pattern as Enrollment's unique constraint — one progress row per
   // (user, lesson), upserted on every access, not inserted repeatedly.
   @@unique([userId, lessonId])
+  @@index([userId])
+  @@index([lessonId])
+}
+
+model WrapUpQuestion {
+  id       String @id @default(cuid())
+  lessonId String
+  prompt   String
+  answer   String @db.Text
+  order    Int
+
+  lesson Lesson @relation(fields: [lessonId], references: [id])
+
+  @@unique([lessonId, order])
+  @@index([lessonId])
+}
+
+model WrapUpKeyTerm {
+  id         String @id @default(cuid())
+  lessonId   String
+  term       String
+  definition String @db.Text
+  order      Int
+
+  lesson Lesson @relation(fields: [lessonId], references: [id])
+
+  @@unique([lessonId, order])
+  @@index([lessonId])
+}
+
+enum AssignmentTier {
+  INLINE      // small in-browser exercise, no repo needed
+  REPO        // bundled starter repo, user works locally
+  OPEN_ENDED  // spec-only build task, no skeleton provided
+}
+
+model Assignment {
+  id           String         @id @default(cuid())
+  lessonId     String         @unique   // one assignment per lesson for v1
+  title        String
+  tier         AssignmentTier
+  instructions String         @db.Text  // the spec/prompt, shown regardless of tier
+  starterRepoUrl String?                // REPO tier only
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  lesson      Lesson       @relation(fields: [lessonId], references: [id])
+  submissions Submission[]
+
+  @@index([lessonId])
+}
+
+enum SubmissionStatus {
+  SUBMITTED
+  IN_REVIEW
+  CHANGES_REQUESTED
+  APPROVED
+}
+
+model Submission {
+  id           String           @id @default(cuid())
+  userId       String
+  assignmentId String
+  prUrl        String
+  status       SubmissionStatus @default(SUBMITTED)
+  reviewNote   String?          @db.Text
+  submittedAt  DateTime         @default(now())
+  reviewedAt   DateTime?
+
+  user       User       @relation(fields: [userId], references: [id])
+  assignment Assignment @relation(fields: [assignmentId], references: [id])
+
+  // One row per (user, assignment) — a resubmission updates this row and
+  // resets status, rather than accumulating a new row per PR link.
+  @@unique([userId, assignmentId])
+  @@index([assignmentId])
+  @@index([userId])
+}
+
+enum BookmarkType {
+  VIDEO_TIMESTAMP
+  CONTENT_SECTION
+}
+
+model Bookmark {
+  id               String       @id @default(cuid())
+  userId           String
+  lessonId         String
+  type             BookmarkType
+  videoTimestampSeconds Int?    // set when type = VIDEO_TIMESTAMP
+  sectionAnchor    String?      // set when type = CONTENT_SECTION — e.g. "first-principles"
+  note             String?      // optional user note, e.g. "revisit before interview"
+  createdAt        DateTime     @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  lesson Lesson @relation(fields: [lessonId], references: [id])
+
   @@index([userId])
   @@index([lessonId])
 }

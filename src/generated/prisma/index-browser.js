@@ -197,6 +197,95 @@ exports.Prisma.EnrollmentScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.ModuleScalarFieldEnum = {
+  id: 'id',
+  courseId: 'courseId',
+  title: 'title',
+  order: 'order',
+  isPublished: 'isPublished',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LessonScalarFieldEnum = {
+  id: 'id',
+  moduleId: 'moduleId',
+  parentId: 'parentId',
+  slug: 'slug',
+  title: 'title',
+  order: 'order',
+  kind: 'kind',
+  contentStatus: 'contentStatus',
+  videoStatus: 'videoStatus',
+  videoUrl: 'videoUrl',
+  notionUrl: 'notionUrl',
+  learningGoals: 'learningGoals',
+  estimatedMinutes: 'estimatedMinutes',
+  keyTakeaways: 'keyTakeaways',
+  contentBody: 'contentBody',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LessonProgressScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  lessonId: 'lessonId',
+  status: 'status',
+  videoPositionSeconds: 'videoPositionSeconds',
+  lastAccessedAt: 'lastAccessedAt',
+  completedAt: 'completedAt'
+};
+
+exports.Prisma.WrapUpQuestionScalarFieldEnum = {
+  id: 'id',
+  lessonId: 'lessonId',
+  prompt: 'prompt',
+  answer: 'answer',
+  order: 'order'
+};
+
+exports.Prisma.WrapUpKeyTermScalarFieldEnum = {
+  id: 'id',
+  lessonId: 'lessonId',
+  term: 'term',
+  definition: 'definition',
+  order: 'order'
+};
+
+exports.Prisma.AssignmentScalarFieldEnum = {
+  id: 'id',
+  lessonId: 'lessonId',
+  title: 'title',
+  tier: 'tier',
+  instructions: 'instructions',
+  starterRepoUrl: 'starterRepoUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SubmissionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  assignmentId: 'assignmentId',
+  prUrl: 'prUrl',
+  status: 'status',
+  reviewNote: 'reviewNote',
+  submittedAt: 'submittedAt',
+  reviewedAt: 'reviewedAt'
+};
+
+exports.Prisma.BookmarkScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  lessonId: 'lessonId',
+  type: 'type',
+  videoTimestampSeconds: 'videoTimestampSeconds',
+  sectionAnchor: 'sectionAnchor',
+  note: 'note',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -223,6 +312,47 @@ exports.OrderStatus = exports.$Enums.OrderStatus = {
   REFUNDED: 'REFUNDED'
 };
 
+exports.LessonKind = exports.$Enums.LessonKind = {
+  STANDALONE: 'STANDALONE',
+  OVERVIEW: 'OVERVIEW',
+  TOPIC: 'TOPIC'
+};
+
+exports.ContentStatus = exports.$Enums.ContentStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED'
+};
+
+exports.VideoStatus = exports.$Enums.VideoStatus = {
+  NOT_RECORDED: 'NOT_RECORDED',
+  EDITING: 'EDITING',
+  PUBLISHED: 'PUBLISHED'
+};
+
+exports.ProgressStatus = exports.$Enums.ProgressStatus = {
+  NOT_STARTED: 'NOT_STARTED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED'
+};
+
+exports.AssignmentTier = exports.$Enums.AssignmentTier = {
+  INLINE: 'INLINE',
+  REPO: 'REPO',
+  OPEN_ENDED: 'OPEN_ENDED'
+};
+
+exports.SubmissionStatus = exports.$Enums.SubmissionStatus = {
+  SUBMITTED: 'SUBMITTED',
+  IN_REVIEW: 'IN_REVIEW',
+  CHANGES_REQUESTED: 'CHANGES_REQUESTED',
+  APPROVED: 'APPROVED'
+};
+
+exports.BookmarkType = exports.$Enums.BookmarkType = {
+  VIDEO_TIMESTAMP: 'VIDEO_TIMESTAMP',
+  CONTENT_SECTION: 'CONTENT_SECTION'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
@@ -230,7 +360,15 @@ exports.Prisma.ModelName = {
   VerificationToken: 'VerificationToken',
   Course: 'Course',
   Order: 'Order',
-  Enrollment: 'Enrollment'
+  Enrollment: 'Enrollment',
+  Module: 'Module',
+  Lesson: 'Lesson',
+  LessonProgress: 'LessonProgress',
+  WrapUpQuestion: 'WrapUpQuestion',
+  WrapUpKeyTerm: 'WrapUpKeyTerm',
+  Assignment: 'Assignment',
+  Submission: 'Submission',
+  Bookmark: 'Bookmark'
 };
 
 /**

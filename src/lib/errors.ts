@@ -97,6 +97,20 @@ export function isRecordNotFoundError(
   return getErrorCode(error) === "P2025";
 }
 
+export const Errors = {
+  unauthorized: () =>
+    new AppError("UNAUTHORIZED", "Sign in required", 401),
+
+  notFound: (what: string) =>
+    new AppError("NOT_FOUND", `${what} not found`, 404),
+
+  forbidden: () =>
+    new AppError("FORBIDDEN", "Not allowed", 403),
+
+  validation: (message: string) =>
+    new AppError("VALIDATION_ERROR", message, 400),
+};
+
 /**
  * Converts application/infrastructure errors into a consistent
  * HTTP response.
