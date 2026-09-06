@@ -11,7 +11,7 @@ export interface UserCourse {
 }
 
 async function fetchUserCourses(): Promise<UserCourse[]> {
-  const res = await fetch("http://localhost:3000/api/me/courses");
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/me/courses`);
   const json = await res.json();
   if (!json.success) throw new Error(json.error.message);
   return json.data;
