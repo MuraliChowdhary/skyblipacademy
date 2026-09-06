@@ -7,5 +7,5 @@ export default async function ContinuePage() {
   const userId = await requireUser();
   const courses = await getUserCourses(userId);
   const target = courses.find((c) => c.lastAccessedLessonId)?.lastAccessedLessonId;
-  redirect(target ? `/dashboard/lessons/${target}` : "/my-learning");
+  redirect(target ? `/dashboard/lessons/${target}` : "/dashboard/my-learning");
 }

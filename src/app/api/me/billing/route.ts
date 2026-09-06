@@ -6,7 +6,7 @@ import { requireSession } from "@/src/lib/require-session";
 export const GET = withApiHandler(async () => {
   const user = requireSession(await auth());
 
-  return accountService.getAccountInfo(user.id);
+  return accountService.getBilling(user.id);
 });
 
 export const PATCH = withApiHandler(async (req) => {
@@ -14,18 +14,7 @@ export const PATCH = withApiHandler(async (req) => {
 
   const body = await req.json();
 
-  return accountService.updateProfile(
-    user.id,
-    body,
-  );
-});
-
-export const DELETE = withApiHandler(async (req) => {
-  const user = requireSession(await auth());
-
-  const body = await req.json();
-
-  return accountService.deleteAccount(
+  return accountService.updateBilling(
     user.id,
     body,
   );

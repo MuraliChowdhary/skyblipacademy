@@ -12,6 +12,10 @@ export function create(
     amountCents: number;
     currency: string;
     idempotencyKey: string;
+    billingName:string,
+    billingEmail:string,
+    billingPhone:string,
+    billingAddress:string
   },
 ) {
   return db.order.create({ data: { ...data, status: "PENDING" } });

@@ -18,6 +18,11 @@ export async function createOrder(
   userId: string,
   courseId: string,
   idempotencyKey: string,
+   billingName:string,
+    billingEmail:string,
+    billingPhone:string,
+    billingAddress:string
+  
 ) {
   const existing = await orderRepository.findByIdempotencyKey(prisma, idempotencyKey);
   if (existing) {
@@ -62,6 +67,11 @@ export async function createOrder(
       amountCents: course.priceCents,
       currency: course.currency,
       idempotencyKey,
+        billingName,
+        billingEmail,
+        billingPhone,
+        billingAddress
+
     });
     logger.info({ orderId: order.id, userId, courseId }, "order.created");
     return order;

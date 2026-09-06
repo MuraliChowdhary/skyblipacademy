@@ -16,3 +16,28 @@ export function findByToken(db: Db, token: string) {
 export function deleteByIdentifier(db: Db, identifier: string) {
   return db.verificationToken.deleteMany({ where: { identifier } });
 }
+
+export function findByIdentifier(
+  db: Db,
+  identifier: string,
+) {
+  return db.verificationToken.findFirst({
+    where: {
+      identifier,
+      expires: {
+        gt: new Date(),
+      },
+    },
+  });
+}
+
+export function deleteByToken(
+  db: Db,
+  token: string,
+) {
+  return db.verificationToken.delete({
+    where: {
+      token,
+    },
+  });
+}

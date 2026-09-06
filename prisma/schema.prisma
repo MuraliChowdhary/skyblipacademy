@@ -38,6 +38,7 @@ model User {
   LessonProgress  LessonProgress[]
   Submission    Submission[]
   Bookmark      Bookmark[]
+  BillingProfile  BillingProfile[]
   @@index([email])
 }
 
@@ -78,6 +79,26 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model BillingProfile {
+  id         String   @id @default(cuid())
+  userId     String   @unique
+
+  fullName   String?
+  country    String
+  state      String?
+  address    String?
+  city       String?
+  postalCode String?
+  taxId      String?
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id],onDelete: Cascade)
+
+  @@index([userId])
 }
 
 // ---------- Catalog (v1: Courses only — Programs are v2) ----------
@@ -127,6 +148,12 @@ model Order {
   gatewayPaymentId String? @unique
 
   failureReason String?
+
+  billingName    String?
+  billingEmail   String?
+  billingPhone   String?
+  billingAddress String?
+
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 

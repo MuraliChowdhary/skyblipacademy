@@ -5,7 +5,7 @@ import { AppError } from "@/src/lib/errors";
 
 type Params = { courseId: string };
 
-export const POST = withApiHandler<Params>(async (req, { params }, log) => {
+export const POST = withApiHandler<Params>(async (req:Request, { params}, log) => {
   const session = await auth();
   if (!session?.user) {
     throw new AppError("UNAUTHENTICATED", "Sign in to purchase a course.", 401);
@@ -26,8 +26,9 @@ export const POST = withApiHandler<Params>(async (req, { params }, log) => {
   }
 
   const { courseId } = await params;
+  const {name,email,phone,address} = await req.json();
   log.info({ userId: session.user.id, courseId }, "order.create.attempt");
 
-  return createOrder(session.user.id, courseId, idempotencyKey);
+  return createOrder(session.user.id, courseId, idempotencyKey,name,email,phone,address);
 });
 

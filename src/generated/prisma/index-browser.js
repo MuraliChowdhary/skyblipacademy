@@ -161,6 +161,20 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
   expires: 'expires'
 };
 
+exports.Prisma.BillingProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  fullName: 'fullName',
+  country: 'country',
+  state: 'state',
+  address: 'address',
+  city: 'city',
+  postalCode: 'postalCode',
+  taxId: 'taxId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.CourseScalarFieldEnum = {
   id: 'id',
   slug: 'slug',
@@ -185,6 +199,10 @@ exports.Prisma.OrderScalarFieldEnum = {
   gatewayOrderId: 'gatewayOrderId',
   gatewayPaymentId: 'gatewayPaymentId',
   failureReason: 'failureReason',
+  billingName: 'billingName',
+  billingEmail: 'billingEmail',
+  billingPhone: 'billingPhone',
+  billingAddress: 'billingAddress',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -358,6 +376,7 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
+  BillingProfile: 'BillingProfile',
   Course: 'Course',
   Order: 'Order',
   Enrollment: 'Enrollment',

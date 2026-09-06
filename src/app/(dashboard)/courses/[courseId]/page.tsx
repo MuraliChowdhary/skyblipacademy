@@ -1,75 +1,59 @@
 // src/app/(dashboard)/courses/[courseId]/page.tsx
 import Link from "next/link";
-import { CheckCircle2, Circle, PlayCircle } from "lucide-react";
-import { Badge } from "@/src/components/ui/badge";
-import { getCourseDetail } from "@/src/backend/services/course-progress.service";
 import { requireUser } from "@/src/lib/require-user";
-import { AppError } from "@/src/lib/app-error";
-
-const statusIcon = {
-  NOT_STARTED: Circle,
-  IN_PROGRESS: PlayCircle,
-  COMPLETED: CheckCircle2,
-};
-
-export default async function CourseSyllabusPage({
-  params,
-}: {
-  params: Promise<{ courseId: string }>;
-}) {
+import { getCoursePreview } from "@/src/backend/services/catalog.service";
+import { Badge } from "@/src/components/ui/badge";
+import { Button } from "@/src/components/ui/button";
+import { SetBreadcrumb } from "@/src/components/dashboard/set-breadcrumb";
+import { PurchaseDialog } from "@/src/components/courses/purchase-dialog";
+import Image from "next/image";
+export default async function CoursePage({ params }: { params: Promise<{ courseId: string }> }) {
   const { courseId } = await params;
-
-const userId = await requireUser();
-
-let modules;
-
-try {
-  
-  modules = await getCourseDetail(userId, courseId);
-  } catch (err) {
-    const forbidden = err instanceof AppError && err.status === 403;
-    return (
-      <main className="mx-auto w-full max-w-3xl px-4 py-8">
-        <div className="rounded-lg border p-6">
-          <h1 className="text-lg font-semibold">
-            {forbidden ? "You don't have access to this course" : "Course not found"}
-          </h1>
-        </div>
-      </main>
-    );
-  }
+  const userId = await requireUser();
+  const { course, isEnrolled } = await getCoursePreview(userId, courseId);
 
   return (
-    <main className="mx-auto w-full max-w-3xl space-y-8 px-4 py-8">
-      {modules.map((module) => (
-        <section key={module.id} className="space-y-3">
-          <h2 className="text-lg font-semibold">{module.title}</h2>
-          <div className="divide-y rounded-lg border">
-            {module.lessons.map((lesson) => {
-              const status = lesson.progress[0]?.status ?? "NOT_STARTED";
-              const Icon = statusIcon[status as keyof typeof statusIcon];
-              const hasChildren = lesson._count.children > 0;
+    <div className="mx-auto max-w-2xl space-y-6 py-8">
+      <SetBreadcrumb items={[{ label: "Browse Courses", href: "/courses" }, { label: course.title }]} />
 
-              return (
-                <Link
-                  key={lesson.id}
-                  href={`/dashboard/lessons/${lesson.id}`}
-                  className="flex items-center gap-3 p-4 transition-colors hover:bg-muted/50"
-                >
-                  <Icon
-                    className={`h-5 w-5 shrink-0 ${
-                      status === "COMPLETED" ? "text-primary" : "text-muted-foreground"
-                    }`}
-                  />
-                  <span className="flex-1 text-sm font-medium">{lesson.title}</span>
-                  {hasChildren && <Badge variant="outline">{lesson._count.children} topics</Badge>}
-                  {status === "IN_PROGRESS" && <Badge variant="secondary">In progress</Badge>}
-                </Link>
-              );
-            })}
+      <div className="flex items-start justify-between gap-4">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl font-semibold">{course.title}</h1>
+            {isEnrolled && (
+              <Badge className="bg-green-100 text-green-700 hover:bg-green-100">Enrolled</Badge>
+            )}
           </div>
-        </section>
-      ))}
-    </main>
+          <p className="text-sm text-muted-foreground">{course.description}</p>
+        </div>
+
+        {isEnrolled ? (
+          <Button>
+            <Link href={`/dashboard/courses/${course.id}`}>Go to course</Link>
+          </Button>
+        ) : (
+          <PurchaseDialog courseId={course.id} courseTitle={course.title} priceCents={course.priceCents} />
+        )}
+      </div>
+
+      {course.syllabus && (
+        <div className="space-y-2 rounded-lg border p-5">
+          <h2 className="text-sm font-semibold">Syllabus</h2>
+          <div className="prose prose-neutral prose-sm max-w-none dark:prose-invert">
+            {course.syllabus && (
+              <div className="mt-4 overflow-hidden rounded-lg border">
+                <Image
+                  src={course.syllabus}
+                  alt={`${course.title} syllabus`}
+                  width={1200}
+                  height={800}
+                  className="h-auto w-full object-contain"
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

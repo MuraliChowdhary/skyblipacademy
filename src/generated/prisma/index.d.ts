@@ -34,6 +34,11 @@ export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
  */
 export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTokenPayload>
 /**
+ * Model BillingProfile
+ * 
+ */
+export type BillingProfile = $Result.DefaultSelection<Prisma.$BillingProfilePayload>
+/**
  * Model Course
  * 
  */
@@ -370,6 +375,16 @@ export class PrismaClient<
     * ```
     */
   get verificationToken(): Prisma.VerificationTokenDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.billingProfile`: Exposes CRUD operations for the **BillingProfile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BillingProfiles
+    * const billingProfiles = await prisma.billingProfile.findMany()
+    * ```
+    */
+  get billingProfile(): Prisma.BillingProfileDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.course`: Exposes CRUD operations for the **Course** model.
@@ -931,6 +946,7 @@ export namespace Prisma {
     Account: 'Account',
     Session: 'Session',
     VerificationToken: 'VerificationToken',
+    BillingProfile: 'BillingProfile',
     Course: 'Course',
     Order: 'Order',
     Enrollment: 'Enrollment',
@@ -957,7 +973,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "verificationToken" | "course" | "order" | "enrollment" | "module" | "lesson" | "lessonProgress" | "wrapUpQuestion" | "wrapUpKeyTerm" | "assignment" | "submission" | "bookmark"
+      modelProps: "user" | "account" | "session" | "verificationToken" | "billingProfile" | "course" | "order" | "enrollment" | "module" | "lesson" | "lessonProgress" | "wrapUpQuestion" | "wrapUpKeyTerm" | "assignment" | "submission" | "bookmark"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1254,6 +1270,80 @@ export namespace Prisma {
           count: {
             args: Prisma.VerificationTokenCountArgs<ExtArgs>
             result: $Utils.Optional<VerificationTokenCountAggregateOutputType> | number
+          }
+        }
+      }
+      BillingProfile: {
+        payload: Prisma.$BillingProfilePayload<ExtArgs>
+        fields: Prisma.BillingProfileFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BillingProfileFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingProfilePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BillingProfileFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingProfilePayload>
+          }
+          findFirst: {
+            args: Prisma.BillingProfileFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingProfilePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BillingProfileFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingProfilePayload>
+          }
+          findMany: {
+            args: Prisma.BillingProfileFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingProfilePayload>[]
+          }
+          create: {
+            args: Prisma.BillingProfileCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingProfilePayload>
+          }
+          createMany: {
+            args: Prisma.BillingProfileCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BillingProfileCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingProfilePayload>[]
+          }
+          delete: {
+            args: Prisma.BillingProfileDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingProfilePayload>
+          }
+          update: {
+            args: Prisma.BillingProfileUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingProfilePayload>
+          }
+          deleteMany: {
+            args: Prisma.BillingProfileDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BillingProfileUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BillingProfileUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingProfilePayload>[]
+          }
+          upsert: {
+            args: Prisma.BillingProfileUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BillingProfilePayload>
+          }
+          aggregate: {
+            args: Prisma.BillingProfileAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBillingProfile>
+          }
+          groupBy: {
+            args: Prisma.BillingProfileGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BillingProfileGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BillingProfileCountArgs<ExtArgs>
+            result: $Utils.Optional<BillingProfileCountAggregateOutputType> | number
           }
         }
       }
@@ -2198,6 +2288,7 @@ export namespace Prisma {
     account?: AccountOmit
     session?: SessionOmit
     verificationToken?: VerificationTokenOmit
+    billingProfile?: BillingProfileOmit
     course?: CourseOmit
     order?: OrderOmit
     enrollment?: EnrollmentOmit
@@ -2296,6 +2387,7 @@ export namespace Prisma {
     LessonProgress: number
     Submission: number
     Bookmark: number
+    BillingProfile: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2306,6 +2398,7 @@ export namespace Prisma {
     LessonProgress?: boolean | UserCountOutputTypeCountLessonProgressArgs
     Submission?: boolean | UserCountOutputTypeCountSubmissionArgs
     Bookmark?: boolean | UserCountOutputTypeCountBookmarkArgs
+    BillingProfile?: boolean | UserCountOutputTypeCountBillingProfileArgs
   }
 
   // Custom InputTypes
@@ -2366,6 +2459,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountBookmarkArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BookmarkWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountBillingProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BillingProfileWhereInput
   }
 
 
@@ -2771,6 +2871,7 @@ export namespace Prisma {
     LessonProgress?: boolean | User$LessonProgressArgs<ExtArgs>
     Submission?: boolean | User$SubmissionArgs<ExtArgs>
     Bookmark?: boolean | User$BookmarkArgs<ExtArgs>
+    BillingProfile?: boolean | User$BillingProfileArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2822,6 +2923,7 @@ export namespace Prisma {
     LessonProgress?: boolean | User$LessonProgressArgs<ExtArgs>
     Submission?: boolean | User$SubmissionArgs<ExtArgs>
     Bookmark?: boolean | User$BookmarkArgs<ExtArgs>
+    BillingProfile?: boolean | User$BillingProfileArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2837,6 +2939,7 @@ export namespace Prisma {
       LessonProgress: Prisma.$LessonProgressPayload<ExtArgs>[]
       Submission: Prisma.$SubmissionPayload<ExtArgs>[]
       Bookmark: Prisma.$BookmarkPayload<ExtArgs>[]
+      BillingProfile: Prisma.$BillingProfilePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3250,6 +3353,7 @@ export namespace Prisma {
     LessonProgress<T extends User$LessonProgressArgs<ExtArgs> = {}>(args?: Subset<T, User$LessonProgressArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LessonProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Submission<T extends User$SubmissionArgs<ExtArgs> = {}>(args?: Subset<T, User$SubmissionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Bookmark<T extends User$BookmarkArgs<ExtArgs> = {}>(args?: Subset<T, User$BookmarkArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookmarkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    BillingProfile<T extends User$BillingProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$BillingProfileArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BillingProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3847,6 +3951,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BookmarkScalarFieldEnum | BookmarkScalarFieldEnum[]
+  }
+
+  /**
+   * User.BillingProfile
+   */
+  export type User$BillingProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingProfile
+     */
+    select?: BillingProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingProfile
+     */
+    omit?: BillingProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingProfileInclude<ExtArgs> | null
+    where?: BillingProfileWhereInput
+    orderBy?: BillingProfileOrderByWithRelationInput | BillingProfileOrderByWithRelationInput[]
+    cursor?: BillingProfileWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BillingProfileScalarFieldEnum | BillingProfileScalarFieldEnum[]
   }
 
   /**
@@ -7081,6 +7209,1147 @@ export namespace Prisma {
 
 
   /**
+   * Model BillingProfile
+   */
+
+  export type AggregateBillingProfile = {
+    _count: BillingProfileCountAggregateOutputType | null
+    _min: BillingProfileMinAggregateOutputType | null
+    _max: BillingProfileMaxAggregateOutputType | null
+  }
+
+  export type BillingProfileMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    fullName: string | null
+    country: string | null
+    state: string | null
+    address: string | null
+    city: string | null
+    postalCode: string | null
+    taxId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BillingProfileMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    fullName: string | null
+    country: string | null
+    state: string | null
+    address: string | null
+    city: string | null
+    postalCode: string | null
+    taxId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BillingProfileCountAggregateOutputType = {
+    id: number
+    userId: number
+    fullName: number
+    country: number
+    state: number
+    address: number
+    city: number
+    postalCode: number
+    taxId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BillingProfileMinAggregateInputType = {
+    id?: true
+    userId?: true
+    fullName?: true
+    country?: true
+    state?: true
+    address?: true
+    city?: true
+    postalCode?: true
+    taxId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BillingProfileMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    fullName?: true
+    country?: true
+    state?: true
+    address?: true
+    city?: true
+    postalCode?: true
+    taxId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BillingProfileCountAggregateInputType = {
+    id?: true
+    userId?: true
+    fullName?: true
+    country?: true
+    state?: true
+    address?: true
+    city?: true
+    postalCode?: true
+    taxId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BillingProfileAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BillingProfile to aggregate.
+     */
+    where?: BillingProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BillingProfiles to fetch.
+     */
+    orderBy?: BillingProfileOrderByWithRelationInput | BillingProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BillingProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BillingProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BillingProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BillingProfiles
+    **/
+    _count?: true | BillingProfileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BillingProfileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BillingProfileMaxAggregateInputType
+  }
+
+  export type GetBillingProfileAggregateType<T extends BillingProfileAggregateArgs> = {
+        [P in keyof T & keyof AggregateBillingProfile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBillingProfile[P]>
+      : GetScalarType<T[P], AggregateBillingProfile[P]>
+  }
+
+
+
+
+  export type BillingProfileGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BillingProfileWhereInput
+    orderBy?: BillingProfileOrderByWithAggregationInput | BillingProfileOrderByWithAggregationInput[]
+    by: BillingProfileScalarFieldEnum[] | BillingProfileScalarFieldEnum
+    having?: BillingProfileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BillingProfileCountAggregateInputType | true
+    _min?: BillingProfileMinAggregateInputType
+    _max?: BillingProfileMaxAggregateInputType
+  }
+
+  export type BillingProfileGroupByOutputType = {
+    id: string
+    userId: string
+    fullName: string | null
+    country: string
+    state: string | null
+    address: string | null
+    city: string | null
+    postalCode: string | null
+    taxId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: BillingProfileCountAggregateOutputType | null
+    _min: BillingProfileMinAggregateOutputType | null
+    _max: BillingProfileMaxAggregateOutputType | null
+  }
+
+  type GetBillingProfileGroupByPayload<T extends BillingProfileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BillingProfileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BillingProfileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BillingProfileGroupByOutputType[P]>
+            : GetScalarType<T[P], BillingProfileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BillingProfileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    fullName?: boolean
+    country?: boolean
+    state?: boolean
+    address?: boolean
+    city?: boolean
+    postalCode?: boolean
+    taxId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["billingProfile"]>
+
+  export type BillingProfileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    fullName?: boolean
+    country?: boolean
+    state?: boolean
+    address?: boolean
+    city?: boolean
+    postalCode?: boolean
+    taxId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["billingProfile"]>
+
+  export type BillingProfileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    fullName?: boolean
+    country?: boolean
+    state?: boolean
+    address?: boolean
+    city?: boolean
+    postalCode?: boolean
+    taxId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["billingProfile"]>
+
+  export type BillingProfileSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    fullName?: boolean
+    country?: boolean
+    state?: boolean
+    address?: boolean
+    city?: boolean
+    postalCode?: boolean
+    taxId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BillingProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "fullName" | "country" | "state" | "address" | "city" | "postalCode" | "taxId" | "createdAt" | "updatedAt", ExtArgs["result"]["billingProfile"]>
+  export type BillingProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type BillingProfileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type BillingProfileIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $BillingProfilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BillingProfile"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      fullName: string | null
+      country: string
+      state: string | null
+      address: string | null
+      city: string | null
+      postalCode: string | null
+      taxId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["billingProfile"]>
+    composites: {}
+  }
+
+  type BillingProfileGetPayload<S extends boolean | null | undefined | BillingProfileDefaultArgs> = $Result.GetResult<Prisma.$BillingProfilePayload, S>
+
+  type BillingProfileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BillingProfileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BillingProfileCountAggregateInputType | true
+    }
+
+  export interface BillingProfileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BillingProfile'], meta: { name: 'BillingProfile' } }
+    /**
+     * Find zero or one BillingProfile that matches the filter.
+     * @param {BillingProfileFindUniqueArgs} args - Arguments to find a BillingProfile
+     * @example
+     * // Get one BillingProfile
+     * const billingProfile = await prisma.billingProfile.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BillingProfileFindUniqueArgs>(args: SelectSubset<T, BillingProfileFindUniqueArgs<ExtArgs>>): Prisma__BillingProfileClient<$Result.GetResult<Prisma.$BillingProfilePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BillingProfile that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BillingProfileFindUniqueOrThrowArgs} args - Arguments to find a BillingProfile
+     * @example
+     * // Get one BillingProfile
+     * const billingProfile = await prisma.billingProfile.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BillingProfileFindUniqueOrThrowArgs>(args: SelectSubset<T, BillingProfileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BillingProfileClient<$Result.GetResult<Prisma.$BillingProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BillingProfile that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingProfileFindFirstArgs} args - Arguments to find a BillingProfile
+     * @example
+     * // Get one BillingProfile
+     * const billingProfile = await prisma.billingProfile.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BillingProfileFindFirstArgs>(args?: SelectSubset<T, BillingProfileFindFirstArgs<ExtArgs>>): Prisma__BillingProfileClient<$Result.GetResult<Prisma.$BillingProfilePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BillingProfile that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingProfileFindFirstOrThrowArgs} args - Arguments to find a BillingProfile
+     * @example
+     * // Get one BillingProfile
+     * const billingProfile = await prisma.billingProfile.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BillingProfileFindFirstOrThrowArgs>(args?: SelectSubset<T, BillingProfileFindFirstOrThrowArgs<ExtArgs>>): Prisma__BillingProfileClient<$Result.GetResult<Prisma.$BillingProfilePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BillingProfiles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingProfileFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BillingProfiles
+     * const billingProfiles = await prisma.billingProfile.findMany()
+     * 
+     * // Get first 10 BillingProfiles
+     * const billingProfiles = await prisma.billingProfile.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const billingProfileWithIdOnly = await prisma.billingProfile.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BillingProfileFindManyArgs>(args?: SelectSubset<T, BillingProfileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BillingProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BillingProfile.
+     * @param {BillingProfileCreateArgs} args - Arguments to create a BillingProfile.
+     * @example
+     * // Create one BillingProfile
+     * const BillingProfile = await prisma.billingProfile.create({
+     *   data: {
+     *     // ... data to create a BillingProfile
+     *   }
+     * })
+     * 
+     */
+    create<T extends BillingProfileCreateArgs>(args: SelectSubset<T, BillingProfileCreateArgs<ExtArgs>>): Prisma__BillingProfileClient<$Result.GetResult<Prisma.$BillingProfilePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BillingProfiles.
+     * @param {BillingProfileCreateManyArgs} args - Arguments to create many BillingProfiles.
+     * @example
+     * // Create many BillingProfiles
+     * const billingProfile = await prisma.billingProfile.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BillingProfileCreateManyArgs>(args?: SelectSubset<T, BillingProfileCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BillingProfiles and returns the data saved in the database.
+     * @param {BillingProfileCreateManyAndReturnArgs} args - Arguments to create many BillingProfiles.
+     * @example
+     * // Create many BillingProfiles
+     * const billingProfile = await prisma.billingProfile.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BillingProfiles and only return the `id`
+     * const billingProfileWithIdOnly = await prisma.billingProfile.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BillingProfileCreateManyAndReturnArgs>(args?: SelectSubset<T, BillingProfileCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BillingProfilePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BillingProfile.
+     * @param {BillingProfileDeleteArgs} args - Arguments to delete one BillingProfile.
+     * @example
+     * // Delete one BillingProfile
+     * const BillingProfile = await prisma.billingProfile.delete({
+     *   where: {
+     *     // ... filter to delete one BillingProfile
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BillingProfileDeleteArgs>(args: SelectSubset<T, BillingProfileDeleteArgs<ExtArgs>>): Prisma__BillingProfileClient<$Result.GetResult<Prisma.$BillingProfilePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BillingProfile.
+     * @param {BillingProfileUpdateArgs} args - Arguments to update one BillingProfile.
+     * @example
+     * // Update one BillingProfile
+     * const billingProfile = await prisma.billingProfile.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BillingProfileUpdateArgs>(args: SelectSubset<T, BillingProfileUpdateArgs<ExtArgs>>): Prisma__BillingProfileClient<$Result.GetResult<Prisma.$BillingProfilePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BillingProfiles.
+     * @param {BillingProfileDeleteManyArgs} args - Arguments to filter BillingProfiles to delete.
+     * @example
+     * // Delete a few BillingProfiles
+     * const { count } = await prisma.billingProfile.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BillingProfileDeleteManyArgs>(args?: SelectSubset<T, BillingProfileDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BillingProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingProfileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BillingProfiles
+     * const billingProfile = await prisma.billingProfile.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BillingProfileUpdateManyArgs>(args: SelectSubset<T, BillingProfileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BillingProfiles and returns the data updated in the database.
+     * @param {BillingProfileUpdateManyAndReturnArgs} args - Arguments to update many BillingProfiles.
+     * @example
+     * // Update many BillingProfiles
+     * const billingProfile = await prisma.billingProfile.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BillingProfiles and only return the `id`
+     * const billingProfileWithIdOnly = await prisma.billingProfile.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BillingProfileUpdateManyAndReturnArgs>(args: SelectSubset<T, BillingProfileUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BillingProfilePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BillingProfile.
+     * @param {BillingProfileUpsertArgs} args - Arguments to update or create a BillingProfile.
+     * @example
+     * // Update or create a BillingProfile
+     * const billingProfile = await prisma.billingProfile.upsert({
+     *   create: {
+     *     // ... data to create a BillingProfile
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BillingProfile we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BillingProfileUpsertArgs>(args: SelectSubset<T, BillingProfileUpsertArgs<ExtArgs>>): Prisma__BillingProfileClient<$Result.GetResult<Prisma.$BillingProfilePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BillingProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingProfileCountArgs} args - Arguments to filter BillingProfiles to count.
+     * @example
+     * // Count the number of BillingProfiles
+     * const count = await prisma.billingProfile.count({
+     *   where: {
+     *     // ... the filter for the BillingProfiles we want to count
+     *   }
+     * })
+    **/
+    count<T extends BillingProfileCountArgs>(
+      args?: Subset<T, BillingProfileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BillingProfileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BillingProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingProfileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BillingProfileAggregateArgs>(args: Subset<T, BillingProfileAggregateArgs>): Prisma.PrismaPromise<GetBillingProfileAggregateType<T>>
+
+    /**
+     * Group by BillingProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BillingProfileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BillingProfileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BillingProfileGroupByArgs['orderBy'] }
+        : { orderBy?: BillingProfileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BillingProfileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBillingProfileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BillingProfile model
+   */
+  readonly fields: BillingProfileFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BillingProfile.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BillingProfileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BillingProfile model
+   */
+  interface BillingProfileFieldRefs {
+    readonly id: FieldRef<"BillingProfile", 'String'>
+    readonly userId: FieldRef<"BillingProfile", 'String'>
+    readonly fullName: FieldRef<"BillingProfile", 'String'>
+    readonly country: FieldRef<"BillingProfile", 'String'>
+    readonly state: FieldRef<"BillingProfile", 'String'>
+    readonly address: FieldRef<"BillingProfile", 'String'>
+    readonly city: FieldRef<"BillingProfile", 'String'>
+    readonly postalCode: FieldRef<"BillingProfile", 'String'>
+    readonly taxId: FieldRef<"BillingProfile", 'String'>
+    readonly createdAt: FieldRef<"BillingProfile", 'DateTime'>
+    readonly updatedAt: FieldRef<"BillingProfile", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BillingProfile findUnique
+   */
+  export type BillingProfileFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingProfile
+     */
+    select?: BillingProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingProfile
+     */
+    omit?: BillingProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which BillingProfile to fetch.
+     */
+    where: BillingProfileWhereUniqueInput
+  }
+
+  /**
+   * BillingProfile findUniqueOrThrow
+   */
+  export type BillingProfileFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingProfile
+     */
+    select?: BillingProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingProfile
+     */
+    omit?: BillingProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which BillingProfile to fetch.
+     */
+    where: BillingProfileWhereUniqueInput
+  }
+
+  /**
+   * BillingProfile findFirst
+   */
+  export type BillingProfileFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingProfile
+     */
+    select?: BillingProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingProfile
+     */
+    omit?: BillingProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which BillingProfile to fetch.
+     */
+    where?: BillingProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BillingProfiles to fetch.
+     */
+    orderBy?: BillingProfileOrderByWithRelationInput | BillingProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BillingProfiles.
+     */
+    cursor?: BillingProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BillingProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BillingProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BillingProfiles.
+     */
+    distinct?: BillingProfileScalarFieldEnum | BillingProfileScalarFieldEnum[]
+  }
+
+  /**
+   * BillingProfile findFirstOrThrow
+   */
+  export type BillingProfileFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingProfile
+     */
+    select?: BillingProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingProfile
+     */
+    omit?: BillingProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which BillingProfile to fetch.
+     */
+    where?: BillingProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BillingProfiles to fetch.
+     */
+    orderBy?: BillingProfileOrderByWithRelationInput | BillingProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BillingProfiles.
+     */
+    cursor?: BillingProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BillingProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BillingProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BillingProfiles.
+     */
+    distinct?: BillingProfileScalarFieldEnum | BillingProfileScalarFieldEnum[]
+  }
+
+  /**
+   * BillingProfile findMany
+   */
+  export type BillingProfileFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingProfile
+     */
+    select?: BillingProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingProfile
+     */
+    omit?: BillingProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which BillingProfiles to fetch.
+     */
+    where?: BillingProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BillingProfiles to fetch.
+     */
+    orderBy?: BillingProfileOrderByWithRelationInput | BillingProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BillingProfiles.
+     */
+    cursor?: BillingProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BillingProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BillingProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BillingProfiles.
+     */
+    distinct?: BillingProfileScalarFieldEnum | BillingProfileScalarFieldEnum[]
+  }
+
+  /**
+   * BillingProfile create
+   */
+  export type BillingProfileCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingProfile
+     */
+    select?: BillingProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingProfile
+     */
+    omit?: BillingProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BillingProfile.
+     */
+    data: XOR<BillingProfileCreateInput, BillingProfileUncheckedCreateInput>
+  }
+
+  /**
+   * BillingProfile createMany
+   */
+  export type BillingProfileCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BillingProfiles.
+     */
+    data: BillingProfileCreateManyInput | BillingProfileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BillingProfile createManyAndReturn
+   */
+  export type BillingProfileCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingProfile
+     */
+    select?: BillingProfileSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingProfile
+     */
+    omit?: BillingProfileOmit<ExtArgs> | null
+    /**
+     * The data used to create many BillingProfiles.
+     */
+    data: BillingProfileCreateManyInput | BillingProfileCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingProfileIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BillingProfile update
+   */
+  export type BillingProfileUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingProfile
+     */
+    select?: BillingProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingProfile
+     */
+    omit?: BillingProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BillingProfile.
+     */
+    data: XOR<BillingProfileUpdateInput, BillingProfileUncheckedUpdateInput>
+    /**
+     * Choose, which BillingProfile to update.
+     */
+    where: BillingProfileWhereUniqueInput
+  }
+
+  /**
+   * BillingProfile updateMany
+   */
+  export type BillingProfileUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BillingProfiles.
+     */
+    data: XOR<BillingProfileUpdateManyMutationInput, BillingProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which BillingProfiles to update
+     */
+    where?: BillingProfileWhereInput
+    /**
+     * Limit how many BillingProfiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BillingProfile updateManyAndReturn
+   */
+  export type BillingProfileUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingProfile
+     */
+    select?: BillingProfileSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingProfile
+     */
+    omit?: BillingProfileOmit<ExtArgs> | null
+    /**
+     * The data used to update BillingProfiles.
+     */
+    data: XOR<BillingProfileUpdateManyMutationInput, BillingProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which BillingProfiles to update
+     */
+    where?: BillingProfileWhereInput
+    /**
+     * Limit how many BillingProfiles to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingProfileIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BillingProfile upsert
+   */
+  export type BillingProfileUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingProfile
+     */
+    select?: BillingProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingProfile
+     */
+    omit?: BillingProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingProfileInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BillingProfile to update in case it exists.
+     */
+    where: BillingProfileWhereUniqueInput
+    /**
+     * In case the BillingProfile found by the `where` argument doesn't exist, create a new BillingProfile with this data.
+     */
+    create: XOR<BillingProfileCreateInput, BillingProfileUncheckedCreateInput>
+    /**
+     * In case the BillingProfile was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BillingProfileUpdateInput, BillingProfileUncheckedUpdateInput>
+  }
+
+  /**
+   * BillingProfile delete
+   */
+  export type BillingProfileDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingProfile
+     */
+    select?: BillingProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingProfile
+     */
+    omit?: BillingProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingProfileInclude<ExtArgs> | null
+    /**
+     * Filter which BillingProfile to delete.
+     */
+    where: BillingProfileWhereUniqueInput
+  }
+
+  /**
+   * BillingProfile deleteMany
+   */
+  export type BillingProfileDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BillingProfiles to delete
+     */
+    where?: BillingProfileWhereInput
+    /**
+     * Limit how many BillingProfiles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BillingProfile without action
+   */
+  export type BillingProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BillingProfile
+     */
+    select?: BillingProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BillingProfile
+     */
+    omit?: BillingProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillingProfileInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Course
    */
 
@@ -8341,6 +9610,10 @@ export namespace Prisma {
     gatewayOrderId: string | null
     gatewayPaymentId: string | null
     failureReason: string | null
+    billingName: string | null
+    billingEmail: string | null
+    billingPhone: string | null
+    billingAddress: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -8356,6 +9629,10 @@ export namespace Prisma {
     gatewayOrderId: string | null
     gatewayPaymentId: string | null
     failureReason: string | null
+    billingName: string | null
+    billingEmail: string | null
+    billingPhone: string | null
+    billingAddress: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -8371,6 +9648,10 @@ export namespace Prisma {
     gatewayOrderId: number
     gatewayPaymentId: number
     failureReason: number
+    billingName: number
+    billingEmail: number
+    billingPhone: number
+    billingAddress: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -8396,6 +9677,10 @@ export namespace Prisma {
     gatewayOrderId?: true
     gatewayPaymentId?: true
     failureReason?: true
+    billingName?: true
+    billingEmail?: true
+    billingPhone?: true
+    billingAddress?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -8411,6 +9696,10 @@ export namespace Prisma {
     gatewayOrderId?: true
     gatewayPaymentId?: true
     failureReason?: true
+    billingName?: true
+    billingEmail?: true
+    billingPhone?: true
+    billingAddress?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -8426,6 +9715,10 @@ export namespace Prisma {
     gatewayOrderId?: true
     gatewayPaymentId?: true
     failureReason?: true
+    billingName?: true
+    billingEmail?: true
+    billingPhone?: true
+    billingAddress?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -8528,6 +9821,10 @@ export namespace Prisma {
     gatewayOrderId: string | null
     gatewayPaymentId: string | null
     failureReason: string | null
+    billingName: string | null
+    billingEmail: string | null
+    billingPhone: string | null
+    billingAddress: string | null
     createdAt: Date
     updatedAt: Date
     _count: OrderCountAggregateOutputType | null
@@ -8562,6 +9859,10 @@ export namespace Prisma {
     gatewayOrderId?: boolean
     gatewayPaymentId?: boolean
     failureReason?: boolean
+    billingName?: boolean
+    billingEmail?: boolean
+    billingPhone?: boolean
+    billingAddress?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -8580,6 +9881,10 @@ export namespace Prisma {
     gatewayOrderId?: boolean
     gatewayPaymentId?: boolean
     failureReason?: boolean
+    billingName?: boolean
+    billingEmail?: boolean
+    billingPhone?: boolean
+    billingAddress?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -8597,6 +9902,10 @@ export namespace Prisma {
     gatewayOrderId?: boolean
     gatewayPaymentId?: boolean
     failureReason?: boolean
+    billingName?: boolean
+    billingEmail?: boolean
+    billingPhone?: boolean
+    billingAddress?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -8614,11 +9923,15 @@ export namespace Prisma {
     gatewayOrderId?: boolean
     gatewayPaymentId?: boolean
     failureReason?: boolean
+    billingName?: boolean
+    billingEmail?: boolean
+    billingPhone?: boolean
+    billingAddress?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "courseId" | "amountCents" | "currency" | "status" | "idempotencyKey" | "gatewayOrderId" | "gatewayPaymentId" | "failureReason" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "courseId" | "amountCents" | "currency" | "status" | "idempotencyKey" | "gatewayOrderId" | "gatewayPaymentId" | "failureReason" | "billingName" | "billingEmail" | "billingPhone" | "billingAddress" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     course?: boolean | CourseDefaultArgs<ExtArgs>
@@ -8651,6 +9964,10 @@ export namespace Prisma {
       gatewayOrderId: string | null
       gatewayPaymentId: string | null
       failureReason: string | null
+      billingName: string | null
+      billingEmail: string | null
+      billingPhone: string | null
+      billingAddress: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["order"]>
@@ -9089,6 +10406,10 @@ export namespace Prisma {
     readonly gatewayOrderId: FieldRef<"Order", 'String'>
     readonly gatewayPaymentId: FieldRef<"Order", 'String'>
     readonly failureReason: FieldRef<"Order", 'String'>
+    readonly billingName: FieldRef<"Order", 'String'>
+    readonly billingEmail: FieldRef<"Order", 'String'>
+    readonly billingPhone: FieldRef<"Order", 'String'>
+    readonly billingAddress: FieldRef<"Order", 'String'>
     readonly createdAt: FieldRef<"Order", 'DateTime'>
     readonly updatedAt: FieldRef<"Order", 'DateTime'>
   }
@@ -19985,6 +21306,23 @@ export namespace Prisma {
   export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
 
 
+  export const BillingProfileScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    fullName: 'fullName',
+    country: 'country',
+    state: 'state',
+    address: 'address',
+    city: 'city',
+    postalCode: 'postalCode',
+    taxId: 'taxId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BillingProfileScalarFieldEnum = (typeof BillingProfileScalarFieldEnum)[keyof typeof BillingProfileScalarFieldEnum]
+
+
   export const CourseScalarFieldEnum: {
     id: 'id',
     slug: 'slug',
@@ -20012,6 +21350,10 @@ export namespace Prisma {
     gatewayOrderId: 'gatewayOrderId',
     gatewayPaymentId: 'gatewayPaymentId',
     failureReason: 'failureReason',
+    billingName: 'billingName',
+    billingEmail: 'billingEmail',
+    billingPhone: 'billingPhone',
+    billingAddress: 'billingAddress',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -20385,6 +21727,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressListRelationFilter
     Submission?: SubmissionListRelationFilter
     Bookmark?: BookmarkListRelationFilter
+    BillingProfile?: BillingProfileListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -20405,6 +21748,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressOrderByRelationAggregateInput
     Submission?: SubmissionOrderByRelationAggregateInput
     Bookmark?: BookmarkOrderByRelationAggregateInput
+    BillingProfile?: BillingProfileOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -20428,6 +21772,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressListRelationFilter
     Submission?: SubmissionListRelationFilter
     Bookmark?: BookmarkListRelationFilter
+    BillingProfile?: BillingProfileListRelationFilter
   }, "id" | "email" | "phone">
 
   export type UserOrderByWithAggregationInput = {
@@ -20648,6 +21993,91 @@ export namespace Prisma {
     expires?: DateTimeWithAggregatesFilter<"VerificationToken"> | Date | string
   }
 
+  export type BillingProfileWhereInput = {
+    AND?: BillingProfileWhereInput | BillingProfileWhereInput[]
+    OR?: BillingProfileWhereInput[]
+    NOT?: BillingProfileWhereInput | BillingProfileWhereInput[]
+    id?: StringFilter<"BillingProfile"> | string
+    userId?: StringFilter<"BillingProfile"> | string
+    fullName?: StringNullableFilter<"BillingProfile"> | string | null
+    country?: StringFilter<"BillingProfile"> | string
+    state?: StringNullableFilter<"BillingProfile"> | string | null
+    address?: StringNullableFilter<"BillingProfile"> | string | null
+    city?: StringNullableFilter<"BillingProfile"> | string | null
+    postalCode?: StringNullableFilter<"BillingProfile"> | string | null
+    taxId?: StringNullableFilter<"BillingProfile"> | string | null
+    createdAt?: DateTimeFilter<"BillingProfile"> | Date | string
+    updatedAt?: DateTimeFilter<"BillingProfile"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type BillingProfileOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fullName?: SortOrderInput | SortOrder
+    country?: SortOrder
+    state?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    postalCode?: SortOrderInput | SortOrder
+    taxId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type BillingProfileWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: BillingProfileWhereInput | BillingProfileWhereInput[]
+    OR?: BillingProfileWhereInput[]
+    NOT?: BillingProfileWhereInput | BillingProfileWhereInput[]
+    fullName?: StringNullableFilter<"BillingProfile"> | string | null
+    country?: StringFilter<"BillingProfile"> | string
+    state?: StringNullableFilter<"BillingProfile"> | string | null
+    address?: StringNullableFilter<"BillingProfile"> | string | null
+    city?: StringNullableFilter<"BillingProfile"> | string | null
+    postalCode?: StringNullableFilter<"BillingProfile"> | string | null
+    taxId?: StringNullableFilter<"BillingProfile"> | string | null
+    createdAt?: DateTimeFilter<"BillingProfile"> | Date | string
+    updatedAt?: DateTimeFilter<"BillingProfile"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type BillingProfileOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fullName?: SortOrderInput | SortOrder
+    country?: SortOrder
+    state?: SortOrderInput | SortOrder
+    address?: SortOrderInput | SortOrder
+    city?: SortOrderInput | SortOrder
+    postalCode?: SortOrderInput | SortOrder
+    taxId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BillingProfileCountOrderByAggregateInput
+    _max?: BillingProfileMaxOrderByAggregateInput
+    _min?: BillingProfileMinOrderByAggregateInput
+  }
+
+  export type BillingProfileScalarWhereWithAggregatesInput = {
+    AND?: BillingProfileScalarWhereWithAggregatesInput | BillingProfileScalarWhereWithAggregatesInput[]
+    OR?: BillingProfileScalarWhereWithAggregatesInput[]
+    NOT?: BillingProfileScalarWhereWithAggregatesInput | BillingProfileScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BillingProfile"> | string
+    userId?: StringWithAggregatesFilter<"BillingProfile"> | string
+    fullName?: StringNullableWithAggregatesFilter<"BillingProfile"> | string | null
+    country?: StringWithAggregatesFilter<"BillingProfile"> | string
+    state?: StringNullableWithAggregatesFilter<"BillingProfile"> | string | null
+    address?: StringNullableWithAggregatesFilter<"BillingProfile"> | string | null
+    city?: StringNullableWithAggregatesFilter<"BillingProfile"> | string | null
+    postalCode?: StringNullableWithAggregatesFilter<"BillingProfile"> | string | null
+    taxId?: StringNullableWithAggregatesFilter<"BillingProfile"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"BillingProfile"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BillingProfile"> | Date | string
+  }
+
   export type CourseWhereInput = {
     AND?: CourseWhereInput | CourseWhereInput[]
     OR?: CourseWhereInput[]
@@ -20750,6 +22180,10 @@ export namespace Prisma {
     gatewayOrderId?: StringNullableFilter<"Order"> | string | null
     gatewayPaymentId?: StringNullableFilter<"Order"> | string | null
     failureReason?: StringNullableFilter<"Order"> | string | null
+    billingName?: StringNullableFilter<"Order"> | string | null
+    billingEmail?: StringNullableFilter<"Order"> | string | null
+    billingPhone?: StringNullableFilter<"Order"> | string | null
+    billingAddress?: StringNullableFilter<"Order"> | string | null
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -20768,6 +22202,10 @@ export namespace Prisma {
     gatewayOrderId?: SortOrderInput | SortOrder
     gatewayPaymentId?: SortOrderInput | SortOrder
     failureReason?: SortOrderInput | SortOrder
+    billingName?: SortOrderInput | SortOrder
+    billingEmail?: SortOrderInput | SortOrder
+    billingPhone?: SortOrderInput | SortOrder
+    billingAddress?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -20789,6 +22227,10 @@ export namespace Prisma {
     currency?: StringFilter<"Order"> | string
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
     failureReason?: StringNullableFilter<"Order"> | string | null
+    billingName?: StringNullableFilter<"Order"> | string | null
+    billingEmail?: StringNullableFilter<"Order"> | string | null
+    billingPhone?: StringNullableFilter<"Order"> | string | null
+    billingAddress?: StringNullableFilter<"Order"> | string | null
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -20807,6 +22249,10 @@ export namespace Prisma {
     gatewayOrderId?: SortOrderInput | SortOrder
     gatewayPaymentId?: SortOrderInput | SortOrder
     failureReason?: SortOrderInput | SortOrder
+    billingName?: SortOrderInput | SortOrder
+    billingEmail?: SortOrderInput | SortOrder
+    billingPhone?: SortOrderInput | SortOrder
+    billingAddress?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: OrderCountOrderByAggregateInput
@@ -20830,6 +22276,10 @@ export namespace Prisma {
     gatewayOrderId?: StringNullableWithAggregatesFilter<"Order"> | string | null
     gatewayPaymentId?: StringNullableWithAggregatesFilter<"Order"> | string | null
     failureReason?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    billingName?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    billingEmail?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    billingPhone?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    billingAddress?: StringNullableWithAggregatesFilter<"Order"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
   }
@@ -21534,6 +22984,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     Submission?: SubmissionCreateNestedManyWithoutUserInput
     Bookmark?: BookmarkCreateNestedManyWithoutUserInput
+    BillingProfile?: BillingProfileCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -21554,6 +23005,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     Submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     Bookmark?: BookmarkUncheckedCreateNestedManyWithoutUserInput
+    BillingProfile?: BillingProfileUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -21574,6 +23026,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     Submission?: SubmissionUpdateManyWithoutUserNestedInput
     Bookmark?: BookmarkUpdateManyWithoutUserNestedInput
+    BillingProfile?: BillingProfileUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -21594,6 +23047,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     Submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     Bookmark?: BookmarkUncheckedUpdateManyWithoutUserNestedInput
+    BillingProfile?: BillingProfileUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -21829,6 +23283,103 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BillingProfileCreateInput = {
+    id?: string
+    fullName?: string | null
+    country: string
+    state?: string | null
+    address?: string | null
+    city?: string | null
+    postalCode?: string | null
+    taxId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutBillingProfileInput
+  }
+
+  export type BillingProfileUncheckedCreateInput = {
+    id?: string
+    userId: string
+    fullName?: string | null
+    country: string
+    state?: string | null
+    address?: string | null
+    city?: string | null
+    postalCode?: string | null
+    taxId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BillingProfileUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutBillingProfileNestedInput
+  }
+
+  export type BillingProfileUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BillingProfileCreateManyInput = {
+    id?: string
+    userId: string
+    fullName?: string | null
+    country: string
+    state?: string | null
+    address?: string | null
+    city?: string | null
+    postalCode?: string | null
+    taxId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BillingProfileUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BillingProfileUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type CourseCreateInput = {
     id?: string
     slug: string
@@ -21941,6 +23492,10 @@ export namespace Prisma {
     gatewayOrderId?: string | null
     gatewayPaymentId?: string | null
     failureReason?: string | null
+    billingName?: string | null
+    billingEmail?: string | null
+    billingPhone?: string | null
+    billingAddress?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutOrdersInput
@@ -21959,6 +23514,10 @@ export namespace Prisma {
     gatewayOrderId?: string | null
     gatewayPaymentId?: string | null
     failureReason?: string | null
+    billingName?: string | null
+    billingEmail?: string | null
+    billingPhone?: string | null
+    billingAddress?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     enrollment?: EnrollmentUncheckedCreateNestedOneWithoutOrderInput
@@ -21973,6 +23532,10 @@ export namespace Prisma {
     gatewayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     gatewayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     failureReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingName?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutOrdersNestedInput
@@ -21991,6 +23554,10 @@ export namespace Prisma {
     gatewayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     gatewayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     failureReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingName?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     enrollment?: EnrollmentUncheckedUpdateOneWithoutOrderNestedInput
@@ -22007,6 +23574,10 @@ export namespace Prisma {
     gatewayOrderId?: string | null
     gatewayPaymentId?: string | null
     failureReason?: string | null
+    billingName?: string | null
+    billingEmail?: string | null
+    billingPhone?: string | null
+    billingAddress?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22020,6 +23591,10 @@ export namespace Prisma {
     gatewayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     gatewayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     failureReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingName?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22035,6 +23610,10 @@ export namespace Prisma {
     gatewayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     gatewayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     failureReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingName?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22836,6 +24415,12 @@ export namespace Prisma {
     none?: BookmarkWhereInput
   }
 
+  export type BillingProfileListRelationFilter = {
+    every?: BillingProfileWhereInput
+    some?: BillingProfileWhereInput
+    none?: BillingProfileWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -22866,6 +24451,10 @@ export namespace Prisma {
   }
 
   export type BookmarkOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BillingProfileOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -23116,6 +24705,48 @@ export namespace Prisma {
     expires?: SortOrder
   }
 
+  export type BillingProfileCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fullName?: SortOrder
+    country?: SortOrder
+    state?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    postalCode?: SortOrder
+    taxId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BillingProfileMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fullName?: SortOrder
+    country?: SortOrder
+    state?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    postalCode?: SortOrder
+    taxId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BillingProfileMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    fullName?: SortOrder
+    country?: SortOrder
+    state?: SortOrder
+    address?: SortOrder
+    city?: SortOrder
+    postalCode?: SortOrder
+    taxId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -23241,6 +24872,10 @@ export namespace Prisma {
     gatewayOrderId?: SortOrder
     gatewayPaymentId?: SortOrder
     failureReason?: SortOrder
+    billingName?: SortOrder
+    billingEmail?: SortOrder
+    billingPhone?: SortOrder
+    billingAddress?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -23260,6 +24895,10 @@ export namespace Prisma {
     gatewayOrderId?: SortOrder
     gatewayPaymentId?: SortOrder
     failureReason?: SortOrder
+    billingName?: SortOrder
+    billingEmail?: SortOrder
+    billingPhone?: SortOrder
+    billingAddress?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -23275,6 +24914,10 @@ export namespace Prisma {
     gatewayOrderId?: SortOrder
     gatewayPaymentId?: SortOrder
     failureReason?: SortOrder
+    billingName?: SortOrder
+    billingEmail?: SortOrder
+    billingPhone?: SortOrder
+    billingAddress?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -23912,6 +25555,13 @@ export namespace Prisma {
     connect?: BookmarkWhereUniqueInput | BookmarkWhereUniqueInput[]
   }
 
+  export type BillingProfileCreateNestedManyWithoutUserInput = {
+    create?: XOR<BillingProfileCreateWithoutUserInput, BillingProfileUncheckedCreateWithoutUserInput> | BillingProfileCreateWithoutUserInput[] | BillingProfileUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BillingProfileCreateOrConnectWithoutUserInput | BillingProfileCreateOrConnectWithoutUserInput[]
+    createMany?: BillingProfileCreateManyUserInputEnvelope
+    connect?: BillingProfileWhereUniqueInput | BillingProfileWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -23959,6 +25609,13 @@ export namespace Prisma {
     connectOrCreate?: BookmarkCreateOrConnectWithoutUserInput | BookmarkCreateOrConnectWithoutUserInput[]
     createMany?: BookmarkCreateManyUserInputEnvelope
     connect?: BookmarkWhereUniqueInput | BookmarkWhereUniqueInput[]
+  }
+
+  export type BillingProfileUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<BillingProfileCreateWithoutUserInput, BillingProfileUncheckedCreateWithoutUserInput> | BillingProfileCreateWithoutUserInput[] | BillingProfileUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BillingProfileCreateOrConnectWithoutUserInput | BillingProfileCreateOrConnectWithoutUserInput[]
+    createMany?: BillingProfileCreateManyUserInputEnvelope
+    connect?: BillingProfileWhereUniqueInput | BillingProfileWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -24079,6 +25736,20 @@ export namespace Prisma {
     deleteMany?: BookmarkScalarWhereInput | BookmarkScalarWhereInput[]
   }
 
+  export type BillingProfileUpdateManyWithoutUserNestedInput = {
+    create?: XOR<BillingProfileCreateWithoutUserInput, BillingProfileUncheckedCreateWithoutUserInput> | BillingProfileCreateWithoutUserInput[] | BillingProfileUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BillingProfileCreateOrConnectWithoutUserInput | BillingProfileCreateOrConnectWithoutUserInput[]
+    upsert?: BillingProfileUpsertWithWhereUniqueWithoutUserInput | BillingProfileUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: BillingProfileCreateManyUserInputEnvelope
+    set?: BillingProfileWhereUniqueInput | BillingProfileWhereUniqueInput[]
+    disconnect?: BillingProfileWhereUniqueInput | BillingProfileWhereUniqueInput[]
+    delete?: BillingProfileWhereUniqueInput | BillingProfileWhereUniqueInput[]
+    connect?: BillingProfileWhereUniqueInput | BillingProfileWhereUniqueInput[]
+    update?: BillingProfileUpdateWithWhereUniqueWithoutUserInput | BillingProfileUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: BillingProfileUpdateManyWithWhereWithoutUserInput | BillingProfileUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: BillingProfileScalarWhereInput | BillingProfileScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -24177,6 +25848,20 @@ export namespace Prisma {
     deleteMany?: BookmarkScalarWhereInput | BookmarkScalarWhereInput[]
   }
 
+  export type BillingProfileUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<BillingProfileCreateWithoutUserInput, BillingProfileUncheckedCreateWithoutUserInput> | BillingProfileCreateWithoutUserInput[] | BillingProfileUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BillingProfileCreateOrConnectWithoutUserInput | BillingProfileCreateOrConnectWithoutUserInput[]
+    upsert?: BillingProfileUpsertWithWhereUniqueWithoutUserInput | BillingProfileUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: BillingProfileCreateManyUserInputEnvelope
+    set?: BillingProfileWhereUniqueInput | BillingProfileWhereUniqueInput[]
+    disconnect?: BillingProfileWhereUniqueInput | BillingProfileWhereUniqueInput[]
+    delete?: BillingProfileWhereUniqueInput | BillingProfileWhereUniqueInput[]
+    connect?: BillingProfileWhereUniqueInput | BillingProfileWhereUniqueInput[]
+    update?: BillingProfileUpdateWithWhereUniqueWithoutUserInput | BillingProfileUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: BillingProfileUpdateManyWithWhereWithoutUserInput | BillingProfileUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: BillingProfileScalarWhereInput | BillingProfileScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutAccountsInput = {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
@@ -24211,6 +25896,20 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutSessionsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionsInput, UserUpdateWithoutSessionsInput>, UserUncheckedUpdateWithoutSessionsInput>
+  }
+
+  export type UserCreateNestedOneWithoutBillingProfileInput = {
+    create?: XOR<UserCreateWithoutBillingProfileInput, UserUncheckedCreateWithoutBillingProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBillingProfileInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutBillingProfileNestedInput = {
+    create?: XOR<UserCreateWithoutBillingProfileInput, UserUncheckedCreateWithoutBillingProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBillingProfileInput
+    upsert?: UserUpsertWithoutBillingProfileInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBillingProfileInput, UserUpdateWithoutBillingProfileInput>, UserUncheckedUpdateWithoutBillingProfileInput>
   }
 
   export type OrderCreateNestedManyWithoutCourseInput = {
@@ -25432,6 +27131,10 @@ export namespace Prisma {
     gatewayOrderId?: string | null
     gatewayPaymentId?: string | null
     failureReason?: string | null
+    billingName?: string | null
+    billingEmail?: string | null
+    billingPhone?: string | null
+    billingAddress?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     course: CourseCreateNestedOneWithoutOrdersInput
@@ -25448,6 +27151,10 @@ export namespace Prisma {
     gatewayOrderId?: string | null
     gatewayPaymentId?: string | null
     failureReason?: string | null
+    billingName?: string | null
+    billingEmail?: string | null
+    billingPhone?: string | null
+    billingAddress?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     enrollment?: EnrollmentUncheckedCreateNestedOneWithoutOrderInput
@@ -25575,6 +27282,42 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BillingProfileCreateWithoutUserInput = {
+    id?: string
+    fullName?: string | null
+    country: string
+    state?: string | null
+    address?: string | null
+    city?: string | null
+    postalCode?: string | null
+    taxId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BillingProfileUncheckedCreateWithoutUserInput = {
+    id?: string
+    fullName?: string | null
+    country: string
+    state?: string | null
+    address?: string | null
+    city?: string | null
+    postalCode?: string | null
+    taxId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BillingProfileCreateOrConnectWithoutUserInput = {
+    where: BillingProfileWhereUniqueInput
+    create: XOR<BillingProfileCreateWithoutUserInput, BillingProfileUncheckedCreateWithoutUserInput>
+  }
+
+  export type BillingProfileCreateManyUserInputEnvelope = {
+    data: BillingProfileCreateManyUserInput | BillingProfileCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
     where: AccountWhereUniqueInput
     update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
@@ -25665,6 +27408,10 @@ export namespace Prisma {
     gatewayOrderId?: StringNullableFilter<"Order"> | string | null
     gatewayPaymentId?: StringNullableFilter<"Order"> | string | null
     failureReason?: StringNullableFilter<"Order"> | string | null
+    billingName?: StringNullableFilter<"Order"> | string | null
+    billingEmail?: StringNullableFilter<"Order"> | string | null
+    billingPhone?: StringNullableFilter<"Order"> | string | null
+    billingAddress?: StringNullableFilter<"Order"> | string | null
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
   }
@@ -25785,6 +27532,39 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Bookmark"> | Date | string
   }
 
+  export type BillingProfileUpsertWithWhereUniqueWithoutUserInput = {
+    where: BillingProfileWhereUniqueInput
+    update: XOR<BillingProfileUpdateWithoutUserInput, BillingProfileUncheckedUpdateWithoutUserInput>
+    create: XOR<BillingProfileCreateWithoutUserInput, BillingProfileUncheckedCreateWithoutUserInput>
+  }
+
+  export type BillingProfileUpdateWithWhereUniqueWithoutUserInput = {
+    where: BillingProfileWhereUniqueInput
+    data: XOR<BillingProfileUpdateWithoutUserInput, BillingProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type BillingProfileUpdateManyWithWhereWithoutUserInput = {
+    where: BillingProfileScalarWhereInput
+    data: XOR<BillingProfileUpdateManyMutationInput, BillingProfileUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type BillingProfileScalarWhereInput = {
+    AND?: BillingProfileScalarWhereInput | BillingProfileScalarWhereInput[]
+    OR?: BillingProfileScalarWhereInput[]
+    NOT?: BillingProfileScalarWhereInput | BillingProfileScalarWhereInput[]
+    id?: StringFilter<"BillingProfile"> | string
+    userId?: StringFilter<"BillingProfile"> | string
+    fullName?: StringNullableFilter<"BillingProfile"> | string | null
+    country?: StringFilter<"BillingProfile"> | string
+    state?: StringNullableFilter<"BillingProfile"> | string | null
+    address?: StringNullableFilter<"BillingProfile"> | string | null
+    city?: StringNullableFilter<"BillingProfile"> | string | null
+    postalCode?: StringNullableFilter<"BillingProfile"> | string | null
+    taxId?: StringNullableFilter<"BillingProfile"> | string | null
+    createdAt?: DateTimeFilter<"BillingProfile"> | Date | string
+    updatedAt?: DateTimeFilter<"BillingProfile"> | Date | string
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id?: string
     name: string
@@ -25802,6 +27582,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     Submission?: SubmissionCreateNestedManyWithoutUserInput
     Bookmark?: BookmarkCreateNestedManyWithoutUserInput
+    BillingProfile?: BillingProfileCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -25821,6 +27602,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     Submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     Bookmark?: BookmarkUncheckedCreateNestedManyWithoutUserInput
+    BillingProfile?: BillingProfileUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -25856,6 +27638,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     Submission?: SubmissionUpdateManyWithoutUserNestedInput
     Bookmark?: BookmarkUpdateManyWithoutUserNestedInput
+    BillingProfile?: BillingProfileUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -25875,6 +27658,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     Submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     Bookmark?: BookmarkUncheckedUpdateManyWithoutUserNestedInput
+    BillingProfile?: BillingProfileUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -25894,6 +27678,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     Submission?: SubmissionCreateNestedManyWithoutUserInput
     Bookmark?: BookmarkCreateNestedManyWithoutUserInput
+    BillingProfile?: BillingProfileCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -25913,6 +27698,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     Submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     Bookmark?: BookmarkUncheckedCreateNestedManyWithoutUserInput
+    BillingProfile?: BillingProfileUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -25948,6 +27734,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     Submission?: SubmissionUpdateManyWithoutUserNestedInput
     Bookmark?: BookmarkUpdateManyWithoutUserNestedInput
+    BillingProfile?: BillingProfileUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -25967,6 +27754,103 @@ export namespace Prisma {
     LessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     Submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     Bookmark?: BookmarkUncheckedUpdateManyWithoutUserNestedInput
+    BillingProfile?: BillingProfileUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutBillingProfileInput = {
+    id?: string
+    name: string
+    email: string
+    phone?: string | null
+    passwordHash?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: $Enums.UserRole
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    orders?: OrderCreateNestedManyWithoutUserInput
+    enrollments?: EnrollmentCreateNestedManyWithoutUserInput
+    LessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
+    Submission?: SubmissionCreateNestedManyWithoutUserInput
+    Bookmark?: BookmarkCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutBillingProfileInput = {
+    id?: string
+    name: string
+    email: string
+    phone?: string | null
+    passwordHash?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    role?: $Enums.UserRole
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
+    LessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
+    Submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    Bookmark?: BookmarkUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutBillingProfileInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBillingProfileInput, UserUncheckedCreateWithoutBillingProfileInput>
+  }
+
+  export type UserUpsertWithoutBillingProfileInput = {
+    update: XOR<UserUpdateWithoutBillingProfileInput, UserUncheckedUpdateWithoutBillingProfileInput>
+    create: XOR<UserCreateWithoutBillingProfileInput, UserUncheckedCreateWithoutBillingProfileInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBillingProfileInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBillingProfileInput, UserUncheckedUpdateWithoutBillingProfileInput>
+  }
+
+  export type UserUpdateWithoutBillingProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    orders?: OrderUpdateManyWithoutUserNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutUserNestedInput
+    LessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
+    Submission?: SubmissionUpdateManyWithoutUserNestedInput
+    Bookmark?: BookmarkUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBillingProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
+    LessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
+    Submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
+    Bookmark?: BookmarkUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type OrderCreateWithoutCourseInput = {
@@ -25978,6 +27862,10 @@ export namespace Prisma {
     gatewayOrderId?: string | null
     gatewayPaymentId?: string | null
     failureReason?: string | null
+    billingName?: string | null
+    billingEmail?: string | null
+    billingPhone?: string | null
+    billingAddress?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutOrdersInput
@@ -25994,6 +27882,10 @@ export namespace Prisma {
     gatewayOrderId?: string | null
     gatewayPaymentId?: string | null
     failureReason?: string | null
+    billingName?: string | null
+    billingEmail?: string | null
+    billingPhone?: string | null
+    billingAddress?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     enrollment?: EnrollmentUncheckedCreateNestedOneWithoutOrderInput
@@ -26141,6 +28033,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     Submission?: SubmissionCreateNestedManyWithoutUserInput
     Bookmark?: BookmarkCreateNestedManyWithoutUserInput
+    BillingProfile?: BillingProfileCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOrdersInput = {
@@ -26160,6 +28053,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     Submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     Bookmark?: BookmarkUncheckedCreateNestedManyWithoutUserInput
+    BillingProfile?: BillingProfileUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOrdersInput = {
@@ -26249,6 +28143,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     Submission?: SubmissionUpdateManyWithoutUserNestedInput
     Bookmark?: BookmarkUpdateManyWithoutUserNestedInput
+    BillingProfile?: BillingProfileUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOrdersInput = {
@@ -26268,6 +28163,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     Submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     Bookmark?: BookmarkUncheckedUpdateManyWithoutUserNestedInput
+    BillingProfile?: BillingProfileUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithoutOrdersInput = {
@@ -26353,6 +28249,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     Submission?: SubmissionCreateNestedManyWithoutUserInput
     Bookmark?: BookmarkCreateNestedManyWithoutUserInput
+    BillingProfile?: BillingProfileCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEnrollmentsInput = {
@@ -26372,6 +28269,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     Submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     Bookmark?: BookmarkUncheckedCreateNestedManyWithoutUserInput
+    BillingProfile?: BillingProfileUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEnrollmentsInput = {
@@ -26423,6 +28321,10 @@ export namespace Prisma {
     gatewayOrderId?: string | null
     gatewayPaymentId?: string | null
     failureReason?: string | null
+    billingName?: string | null
+    billingEmail?: string | null
+    billingPhone?: string | null
+    billingAddress?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutOrdersInput
@@ -26440,6 +28342,10 @@ export namespace Prisma {
     gatewayOrderId?: string | null
     gatewayPaymentId?: string | null
     failureReason?: string | null
+    billingName?: string | null
+    billingEmail?: string | null
+    billingPhone?: string | null
+    billingAddress?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -26477,6 +28383,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     Submission?: SubmissionUpdateManyWithoutUserNestedInput
     Bookmark?: BookmarkUpdateManyWithoutUserNestedInput
+    BillingProfile?: BillingProfileUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEnrollmentsInput = {
@@ -26496,6 +28403,7 @@ export namespace Prisma {
     LessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     Submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     Bookmark?: BookmarkUncheckedUpdateManyWithoutUserNestedInput
+    BillingProfile?: BillingProfileUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CourseUpsertWithoutEnrollmentsInput = {
@@ -26559,6 +28467,10 @@ export namespace Prisma {
     gatewayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     gatewayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     failureReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingName?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutOrdersNestedInput
@@ -26576,6 +28488,10 @@ export namespace Prisma {
     gatewayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     gatewayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     failureReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingName?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -27274,6 +29190,7 @@ export namespace Prisma {
     enrollments?: EnrollmentCreateNestedManyWithoutUserInput
     Submission?: SubmissionCreateNestedManyWithoutUserInput
     Bookmark?: BookmarkCreateNestedManyWithoutUserInput
+    BillingProfile?: BillingProfileCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLessonProgressInput = {
@@ -27293,6 +29210,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
     Submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
     Bookmark?: BookmarkUncheckedCreateNestedManyWithoutUserInput
+    BillingProfile?: BillingProfileUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLessonProgressInput = {
@@ -27383,6 +29301,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUpdateManyWithoutUserNestedInput
     Submission?: SubmissionUpdateManyWithoutUserNestedInput
     Bookmark?: BookmarkUpdateManyWithoutUserNestedInput
+    BillingProfile?: BillingProfileUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLessonProgressInput = {
@@ -27402,6 +29321,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
     Submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
     Bookmark?: BookmarkUncheckedUpdateManyWithoutUserNestedInput
+    BillingProfile?: BillingProfileUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LessonUpsertWithoutProgressInput = {
@@ -27876,6 +29796,7 @@ export namespace Prisma {
     enrollments?: EnrollmentCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     Bookmark?: BookmarkCreateNestedManyWithoutUserInput
+    BillingProfile?: BillingProfileCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSubmissionInput = {
@@ -27895,6 +29816,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     Bookmark?: BookmarkUncheckedCreateNestedManyWithoutUserInput
+    BillingProfile?: BillingProfileUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSubmissionInput = {
@@ -27957,6 +29879,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     Bookmark?: BookmarkUpdateManyWithoutUserNestedInput
+    BillingProfile?: BillingProfileUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubmissionInput = {
@@ -27976,6 +29899,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     Bookmark?: BookmarkUncheckedUpdateManyWithoutUserNestedInput
+    BillingProfile?: BillingProfileUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type AssignmentUpsertWithoutSubmissionsInput = {
@@ -28028,6 +29952,7 @@ export namespace Prisma {
     enrollments?: EnrollmentCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressCreateNestedManyWithoutUserInput
     Submission?: SubmissionCreateNestedManyWithoutUserInput
+    BillingProfile?: BillingProfileCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBookmarkInput = {
@@ -28047,6 +29972,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutUserInput
     LessonProgress?: LessonProgressUncheckedCreateNestedManyWithoutUserInput
     Submission?: SubmissionUncheckedCreateNestedManyWithoutUserInput
+    BillingProfile?: BillingProfileUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBookmarkInput = {
@@ -28137,6 +30063,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUpdateManyWithoutUserNestedInput
     Submission?: SubmissionUpdateManyWithoutUserNestedInput
+    BillingProfile?: BillingProfileUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBookmarkInput = {
@@ -28156,6 +30083,7 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutUserNestedInput
     LessonProgress?: LessonProgressUncheckedUpdateManyWithoutUserNestedInput
     Submission?: SubmissionUncheckedUpdateManyWithoutUserNestedInput
+    BillingProfile?: BillingProfileUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LessonUpsertWithoutBookmarkInput = {
@@ -28249,6 +30177,10 @@ export namespace Prisma {
     gatewayOrderId?: string | null
     gatewayPaymentId?: string | null
     failureReason?: string | null
+    billingName?: string | null
+    billingEmail?: string | null
+    billingPhone?: string | null
+    billingAddress?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -28287,6 +30219,19 @@ export namespace Prisma {
     sectionAnchor?: string | null
     note?: string | null
     createdAt?: Date | string
+  }
+
+  export type BillingProfileCreateManyUserInput = {
+    id?: string
+    fullName?: string | null
+    country: string
+    state?: string | null
+    address?: string | null
+    city?: string | null
+    postalCode?: string | null
+    taxId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -28358,6 +30303,10 @@ export namespace Prisma {
     gatewayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     gatewayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     failureReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingName?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     course?: CourseUpdateOneRequiredWithoutOrdersNestedInput
@@ -28374,6 +30323,10 @@ export namespace Prisma {
     gatewayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     gatewayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     failureReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingName?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     enrollment?: EnrollmentUncheckedUpdateOneWithoutOrderNestedInput
@@ -28389,6 +30342,10 @@ export namespace Prisma {
     gatewayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     gatewayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     failureReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingName?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -28501,6 +30458,45 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BillingProfileUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BillingProfileUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BillingProfileUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: NullableStringFieldUpdateOperationsInput | string | null
+    country?: StringFieldUpdateOperationsInput | string
+    state?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    postalCode?: NullableStringFieldUpdateOperationsInput | string | null
+    taxId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type OrderCreateManyCourseInput = {
     id?: string
     userId: string
@@ -28511,6 +30507,10 @@ export namespace Prisma {
     gatewayOrderId?: string | null
     gatewayPaymentId?: string | null
     failureReason?: string | null
+    billingName?: string | null
+    billingEmail?: string | null
+    billingPhone?: string | null
+    billingAddress?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -28540,6 +30540,10 @@ export namespace Prisma {
     gatewayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     gatewayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     failureReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingName?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutOrdersNestedInput
@@ -28556,6 +30560,10 @@ export namespace Prisma {
     gatewayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     gatewayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     failureReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingName?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     enrollment?: EnrollmentUncheckedUpdateOneWithoutOrderNestedInput
@@ -28571,6 +30579,10 @@ export namespace Prisma {
     gatewayOrderId?: NullableStringFieldUpdateOperationsInput | string | null
     gatewayPaymentId?: NullableStringFieldUpdateOperationsInput | string | null
     failureReason?: NullableStringFieldUpdateOperationsInput | string | null
+    billingName?: NullableStringFieldUpdateOperationsInput | string | null
+    billingEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    billingPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    billingAddress?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
