@@ -304,9 +304,24 @@ exports.Prisma.BookmarkScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.QuizQuestionScalarFieldEnum = {
+  id: 'id',
+  lessonId: 'lessonId',
+  prompt: 'prompt',
+  options: 'options',
+  correctOptionId: 'correctOptionId',
+  explanation: 'explanation',
+  hint: 'hint',
+  order: 'order'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -317,6 +332,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.UserRole = exports.$Enums.UserRole = {
   STUDENT: 'STUDENT',
@@ -387,7 +408,8 @@ exports.Prisma.ModelName = {
   WrapUpKeyTerm: 'WrapUpKeyTerm',
   Assignment: 'Assignment',
   Submission: 'Submission',
-  Bookmark: 'Bookmark'
+  Bookmark: 'Bookmark',
+  QuizQuestion: 'QuizQuestion'
 };
 
 /**

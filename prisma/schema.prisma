@@ -246,6 +246,7 @@ model Lesson {
   wrapUpKeyTerms  WrapUpKeyTerm[]
   Assignment      Assignment[]
   Bookmark        Bookmark[]
+  quizQuestion   QuizQuestion[]
 
   @@unique([moduleId, parentId, order])
   @@unique([moduleId, slug])
@@ -372,5 +373,21 @@ model Bookmark {
   lesson Lesson @relation(fields: [lessonId], references: [id])
 
   @@index([userId])
+  @@index([lessonId])
+}
+
+model QuizQuestion {
+  id              String @id @default(cuid())
+  lessonId        String
+  prompt          String
+  options         Json     // [{ id: string; text: string }]
+  correctOptionId String
+  explanation     String   @db.Text
+  hint            String?
+  order           Int
+
+  lesson Lesson @relation(fields: [lessonId], references: [id])
+
+  @@unique([lessonId, order])
   @@index([lessonId])
 }

@@ -3,11 +3,13 @@
 
 import { useState } from "react";
 import { Badge } from "@/src/components/ui/badge";
+import { QuizPanel } from "./quiz-panel";
 
 interface WrapUp {
   keyTakeaways: string[];
   keyTerms: { term: string; definition: string }[];
   questions: { id: string; prompt: string; answer: string }[];
+  quiz: { id: string; prompt: string; options: { id: string; text: string }[]; correctOptionId: string; explanation: string; hint: string | null }[];
 }
 
 export function WrapUpPanel({ wrapUp }: { wrapUp: WrapUp }) {
@@ -74,6 +76,8 @@ export function WrapUpPanel({ wrapUp }: { wrapUp: WrapUp }) {
           ))}
         </section>
       )}
+
+      <QuizPanel questions={wrapUp.quiz} />
     </div>
   );
 }

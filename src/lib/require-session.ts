@@ -7,3 +7,22 @@ export function requireSession(session: Session | null) {
   }
   return session.user;
 }
+
+type Role = "STUDENT" | "ADMIN";
+
+export function requireRole(
+  session: Session | null,
+  role: Role
+) {
+  const user = requireSession(session);
+
+  if (user.role !== role) {
+    throw new AppError(
+      "FORBIDDEN",
+      "You do not have permission to access this resource.",
+      403
+    );
+  }
+
+  return user;
+}

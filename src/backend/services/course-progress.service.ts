@@ -111,6 +111,7 @@ export async function getLessonDetail(userId: string, lessonId: string) {
       },
       wrapUpQuestions: { orderBy: { order: "asc" } },
       wrapUpKeyTerms: { orderBy: { order: "asc" } },
+      quizQuestion: { orderBy: { order: "asc" } }, // new
     },
   });
   if (!lesson) throw Errors.notFound("Lesson");
@@ -145,6 +146,14 @@ export async function getLessonDetail(userId: string, lessonId: string) {
       keyTakeaways: lesson.keyTakeaways,
       keyTerms: lesson.wrapUpKeyTerms.map((t) => ({ term: t.term, definition: t.definition })),
       questions: lesson.wrapUpQuestions.map((q) => ({ id: q.id, prompt: q.prompt, answer: q.answer })),
+       quiz: lesson.quizQuestion.map((q) => ({
+        id: q.id,
+        prompt: q.prompt,
+        options: q.options as { id: string; text: string }[],
+        correctOptionId: q.correctOptionId,
+        explanation: q.explanation,
+        hint: q.hint,
+      })),
     },
   };
 }

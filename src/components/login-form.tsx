@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 
 import { cn } from "@/src/lib/utils";
 import { Button } from "@/src/components/ui/button";
@@ -16,6 +16,7 @@ import {
 import { Input } from "@/src/components/ui/input";
 import { toast } from "./ui/toast";
 import Link from "next/link";
+import { getSessions } from "../backend/services/account.service";
 
 export function LoginForm({
   className,
@@ -80,8 +81,15 @@ async function handleSubmit(event: FormEvent<HTMLFormElement>) {
       type:'success',
       description:'Welcome back!'
     })
-    router.push("/dashboard");
-    router.refresh();
+    const session = await getSession();
+
+if (session?.user.role === "ADMIN") {
+  router.push("/admin");
+} else {
+  router.push("/dashboard");
+}
+
+router.refresh();
   } catch (error) {
     console.error("Login error:", error);
 

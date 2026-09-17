@@ -206,6 +206,39 @@ async function main() {
       "## Context\nHTTP is the contract your frontend and backend agree on...\n\n## Worked Example\nA second, different example from the video — here we build a notes API instead of a todo API.",
   });
 
+  // ---------- Assignment for the first topic lesson ----------
+  const assignment = await prisma.assignment.upsert({
+    where: { lessonId: topicLessonIds[0] },
+    create: {
+      lessonId: topicLessonIds[0],
+      title: "Set up a reproducible dev environment",
+      tier: "REPO",
+      instructions:
+        "Clone the starter repo, run it with pnpm instead of npm, and open a PR showing the lockfile diff plus a short README note on what changed.",
+      starterRepoUrl: "https://github.com/skyblip/dev-env-starter",
+    },
+    update: {},
+  });
+
+  await prisma.quizQuestion.createMany({
+  data: [
+    {
+      lessonId: topicLessonIds[0],
+      order: 1,
+      prompt: "What is the terminal fundamentally giving you?",
+      options: [
+        { id: "a", text: "A faster way to memorize commands" },
+        { id: "b", text: "A direct, repeatable way to tell the computer what to do" },
+        { id: "c", text: "A replacement for the code editor" },
+      ],
+      correctOptionId: "b",
+      explanation: "The terminal replaces manual clicking with direct, repeatable instructions.",
+      hint: "Think about what changes once you type instead of click.",
+    },
+  ],
+});
+  console.log(`Seeded assignment "${assignment.title}" for lesson ${topicLessonIds[0]}.`);
+
   console.log(
     `Seeded module "${foundationsModule.title}" with 1 overview lesson (2 topics) + 1 standalone lesson.`
   );
@@ -279,6 +312,27 @@ async function main() {
   console.log(
     `Enrolled "${testUser.email}" in "${mernCourse.slug}" with progress on topic lesson ${topicLessonIds[0]}.`
   );
+
+  // ---------- Admin user ----------
+  const adminUser = await prisma.user.upsert({
+    where: { email: "admin@gmail.com" },
+    create: { name: "Admin", email: "admin@gmail.com", role: "ADMIN" },
+    update: { role: "ADMIN" },
+  });
+  console.log(`Seeded admin user: ${adminUser.email}`);
+
+  // ---------- A submission, so the review queue has something to show ----------
+  await prisma.submission.upsert({
+    where: { userId_assignmentId: { userId: testUser.id, assignmentId: assignment.id } },
+    create: {
+      userId: testUser.id,
+      assignmentId: assignment.id,
+      prUrl: "https://github.com/testuser/dev-env-starter/pull/1",
+      status: "SUBMITTED",
+    },
+    update: {},
+  });
+  console.log(`Seeded a SUBMITTED submission for assignment "${assignment.title}".`);
 }
 
 main()
