@@ -1,3 +1,8 @@
+// Pre-computed argon2id hash to ensure constant-time response and prevent user enumeration
+// const DUMMY_HASH =
+//   "$argon2id$v=19$m=65536,p=4,t=3$a62frcMSwiOwKj5wCxl7SA$DIdDEqj8HVcd8prnjUihQG9RATnsH4xnS8ZjFzpiWi8";
+import dotenv from "dotenv";
+dotenv.config();
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { CredentialsSignin } from "next-auth";
@@ -7,6 +12,8 @@ import {
   findUserByEmail,
   verifyPassword,
 } from "../backend/services/user.service";
+
+const DUMMY_HASH = process.env.DUMMY_HASH as string;
 
 type Role = "STUDENT" | "ADMIN";
 
@@ -44,20 +51,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           throw new DatabaseUnavailableError();
         }
 
-        if (!user?.passwordHash) {
-          return null;
-        }
-
+        const passwordHash = user?.passwordHash ?? DUMMY_HASH;
         const valid = await verifyPassword(
           parsed.data.password,
-          user.passwordHash,
+          passwordHash,
         );
 
-        if (!valid) {
-          logger.warn(
-            { userId: user.id },
-            "auth.login.invalid_password",
-          );
+        if (!user || !user.passwordHash || !valid) {
+          if (user) {
+            logger.warn(
+              { userId: user.id },
+              "auth.login.invalid_password",
+            );
+          }
 
           return null;
         }

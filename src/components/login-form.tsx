@@ -14,9 +14,9 @@ import {
   FieldSeparator,
 } from "@/src/components/ui/field";
 import { Input } from "@/src/components/ui/input";
+import { PasswordInput } from "@/src/components/ui/password-input";
 import { toast } from "./ui/toast";
 import Link from "next/link";
-import { getSessions } from "../backend/services/account.service";
 
 export function LoginForm({
   className,
@@ -30,77 +30,77 @@ export function LoginForm({
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-  event.preventDefault();
-  setIsSubmitting(true);
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsSubmitting(true);
 
-  try {
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
-
-    if (result?.error) {
-      if (
-        result.error === "CredentialsSignin" &&
-        result.code === "DATABASE_UNAVAILABLE"
-      ) {
-        toast.add({
-          title: "Database unavailable",
-          type: "error",
-          description: "The database is currently unavailable. Please try again later.",
-        });
-      } else if (result.error === "CredentialsSignin") {
-        toast.add({
-          title: "Sign in failed",
-          type: "error",
-          description: "Incorrect email or password.",
-        });
-      } else {
-        toast.add({
-          title: "Sign in failed",
-          type: "error",
-          description: "Unable to sign in. Please try again.",
-        });
-      }
-
-      return;
-    }
-
-    if (!result?.ok) {
-      toast.add({
-        title: "Sign in failed",
-        description: "Unable to sign in. Please try again.",
+    try {
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
       });
 
-      return;
+      if (result?.error) {
+        if (
+          result.error === "CredentialsSignin" &&
+          result.code === "DATABASE_UNAVAILABLE"
+        ) {
+          toast.add({
+            title: "Database unavailable",
+            type: "error",
+            description: "The database is currently unavailable. Please try again later.",
+          });
+        } else if (result.error === "CredentialsSignin") {
+          toast.add({
+            title: "Sign in failed",
+            type: "error",
+            description: "Incorrect email or password.",
+          });
+        } else {
+          toast.add({
+            title: "Sign in failed",
+            type: "error",
+            description: "Unable to sign in. Please try again.",
+          });
+        }
+
+        return;
+      }
+
+      if (!result?.ok) {
+        toast.add({
+          title: "Sign in failed",
+          description: "Unable to sign in. Please try again.",
+        });
+
+        return;
+      }
+      toast.add({
+        title: 'Login Successfull',
+        type: 'success',
+        description: 'Welcome back!'
+      })
+      const session = await getSession();
+
+      if (session?.user.role === "ADMIN") {
+        router.push("/admin");
+      } else {
+        router.push("/dashboard");
+      }
+
+      router.refresh();
+    } catch (error) {
+      console.error("Login error:", error);
+
+      toast.add({
+        title: "Something went wrong",
+        description: "Please try again later.",
+      });
+    } finally {
+      setIsSubmitting(false);
     }
-    toast.add({
-      title:'Login Successfull',
-      type:'success',
-      description:'Welcome back!'
-    })
-    const session = await getSession();
-
-if (session?.user.role === "ADMIN") {
-  router.push("/admin");
-} else {
-  router.push("/dashboard");
-}
-
-router.refresh();
-  } catch (error) {
-    console.error("Login error:", error);
-
-    toast.add({
-      title: "Something went wrong",
-      description: "Please try again later.",
-    });
-  } finally {
-    setIsSubmitting(false);
   }
-}
 
   async function handleGoogleLogin() {
     setError(null);
@@ -175,9 +175,9 @@ router.refresh();
               Password
             </FieldLabel>
 
-            <Input
+            <PasswordInput
               id="password"
-              type="password"
+              name="password"
               placeholder="••••••••"
               required
               autoComplete="current-password"

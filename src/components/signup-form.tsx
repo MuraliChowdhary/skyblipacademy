@@ -15,6 +15,7 @@ import {
   FieldSeparator,
 } from "@/src/components/ui/field";
 import { Input } from "@/src/components/ui/input";
+import { PasswordInput } from "@/src/components/ui/password-input";
 import { toast } from "@/src/components/ui/toast";
 
 export function SignupForm({
@@ -204,10 +205,9 @@ export function SignupForm({
               Password
             </FieldLabel>
 
-            <Input
+            <PasswordInput
               id="password"
               name="password"
-              type="password"
               placeholder="••••••••"
               autoComplete="new-password"
               required

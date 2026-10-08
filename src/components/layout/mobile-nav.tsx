@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { getSession } from "next-auth/react";
 import { Menu } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import {
@@ -11,8 +13,24 @@ import {
   SheetTrigger,
 } from "@/src/components/ui/sheet";
 import { NAV_LINKS } from "@/src/lib/data";
+import { useCurrentUser } from "@/src/hooks/session";
 
 export function MobileNav() {
+  const router = useRouter();
+  const { user, isAuthenticated } = useCurrentUser();
+
+  async function handleDashboardRedirect() {
+    const session = await getSession();
+
+    if (session?.user.role === "ADMIN") {
+      router.push("/admin");
+    } else {
+      router.push("/dashboard");
+    }
+
+    router.refresh();
+  }
+
   return (
     <div className="lg:hidden">
       <Sheet>
@@ -37,9 +55,21 @@ export function MobileNav() {
                 {link.name}
               </Link>
             ))}
-            <Button variant="outline" className="mt-4">
-              <Link href="/login">Login / Signup</Link>
-            </Button>
+            {isAuthenticated ? (
+              <Button
+                variant="outline"
+                className="mt-4 w-full"
+                onClick={handleDashboardRedirect}
+              >
+                {user?.role === "ADMIN" ? "Admin" : "Dashboard"}
+              </Button>
+            ) : (
+              <Link href="/login">
+                <Button variant="outline" className="mt-4 w-full">
+                  Login / Signup
+                </Button>
+              </Link>
+            )}
           </nav>
         </SheetContent>
       </Sheet>

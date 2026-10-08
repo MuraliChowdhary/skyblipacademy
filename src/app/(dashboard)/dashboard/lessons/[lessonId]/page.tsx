@@ -10,8 +10,10 @@ import { getLessonBreadcrumb, getLessonDetail } from "@/src/backend/services/cou
 import { getLessonAssignment } from "@/src/backend/services/assignment.service";
 import { requireUser } from "@/src/lib/require-user";
 import { AppError } from "@/src/lib/app-error";
-import { LessonBreadcrumb } from "@/src/components/lesson/lesson-breadcrumb";
+// import { LessonBreadcrumb } from "@/src/components/lesson/lesson-breadcrumb";
 import { SetBreadcrumb } from "@/src/components/dashboard/set-breadcrumb";
+import { LessonTopbar } from "@/src/components/lesson/lesson-topbar";
+import { getLessonNav } from "@/src/backend/services/lesson-nav.service";
 
 export default async function LessonPage({
   params,
@@ -43,6 +45,8 @@ export default async function LessonPage({
   }
   const trail = await getLessonBreadcrumb(userId, lessonId);
 
+  const nav = await getLessonNav(userId, lessonId);
+
   const breadcrumbItems = [
   { label: "My Course", href: "/dashboard/my-learning" },
   { label: trail.course.title, href: `/dashboard/courses/${trail.course.id}` },
@@ -55,6 +59,8 @@ export default async function LessonPage({
   // tabs of its own, so it gets its own layout instead of the tab set.
   if (lesson.kind === "OVERVIEW") {
     return (
+          <>
+       <LessonTopbar nav={nav} />
       <main className="mx-auto w-full max-w-4xl px-4 py-8">
     <div className="space-y-6">
       <SetBreadcrumb items={breadcrumbItems} />
@@ -66,6 +72,7 @@ export default async function LessonPage({
       />
     </div>
   </main>
+  </>
     );
   }
 

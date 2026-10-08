@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { getSession } from "next-auth/react";
 import { Button } from "@/src/components/ui/button";
 import { MobileNav } from "@/src/components/layout/mobile-nav";
 import { NAV_LINKS } from "@/src/lib/data";
@@ -10,7 +11,20 @@ import { useCurrentUser } from "@/src/hooks/session";
 
 export function SiteHeader() {
   const pathname = usePathname();
-const { user, isLoading, isAuthenticated } = useCurrentUser();
+  const router = useRouter();
+  const { user, isLoading, isAuthenticated } = useCurrentUser();
+
+  async function handleDashboardRedirect() {
+    const session = await getSession();
+
+    if (session?.user.role === "ADMIN") {
+      router.push("/admin");
+    } else {
+      router.push("/dashboard");
+    }
+
+    router.refresh();
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
@@ -39,16 +53,22 @@ const { user, isLoading, isAuthenticated } = useCurrentUser();
           ))}
         </nav>
 
-       <div className="hidden items-center gap-3 lg:flex"> 
-        {isLoading ? ( <div className="h-10 w-28 animate-pulse rounded-md bg-muted" /> ) : 
-        isAuthenticated ? ( <> <span className="text-sm"> {user?.name ?? user?.email} </span> 
-        <Button size="lg"> <Link href="/dashboard"> Dashboard </Link>
-         </Button> </> ) : ( 
-           <Link href="/login"> 
-            <Button size="lg">Login / Signup</Button>
-            </Link>  )
-        } 
-       </div>
+        <div className="hidden items-center gap-3 lg:flex">
+          {isLoading ? (
+            <div className="h-10 w-28 animate-pulse rounded-md bg-muted" />
+          ) : isAuthenticated ? (
+            <>
+              <span className="text-sm">{user?.name ?? user?.email}</span>
+              <Button size="lg" onClick={handleDashboardRedirect}>
+                {user?.role === "ADMIN" ? "Admin" : "Dashboard"}
+              </Button>
+            </>
+          ) : (
+            <Link href="/login">
+              <Button size="lg">Login / Signup</Button>
+            </Link>
+          )}
+        </div>
 
         <MobileNav />
       </div>
