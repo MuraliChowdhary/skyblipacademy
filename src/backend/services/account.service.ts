@@ -21,8 +21,7 @@ import * as billingRepository from "@/src/backend/repositories/billing.repositor
 import * as sessionRepository from "@/src/backend/repositories/session.repository";
 import * as accountRepository from "@/src/backend/repositories/account.repository";
 import * as verificationRepository from "@/src/backend/repositories/verification-token.repository";
-
-import { AppError } from "@/src/lib/app-error";
+import { AppError } from "@/src/lib/errors";
 import argon2 from 'argon2';
 
 export async function updateProfile(

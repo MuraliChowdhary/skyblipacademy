@@ -4,9 +4,9 @@ import { CheckCircle2, Circle, PlayCircle } from "lucide-react";
 import { Badge } from "@/src/components/ui/badge";
 import { getCourseDetail } from "@/src/backend/services/course-progress.service";
 import { requireUser } from "@/src/lib/require-user";
-import { AppError } from "@/src/lib/app-error";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/src/components/ui/breadcrumb";
 import { SetBreadcrumb } from "@/src/components/dashboard/set-breadcrumb";
+import { AppError } from "@/src/lib/errors";
 
 const statusIcon = {
   NOT_STARTED: Circle,
@@ -26,7 +26,7 @@ export default async function CourseSyllabusPage({
   try {
     ({ course, modules } = await getCourseDetail(userId, courseId));
   } catch (err) {
-    const forbidden = err instanceof AppError && err.status === 403;
+    const forbidden = err instanceof AppError && err.statusCode === 403;
     return (
       <main className="mx-auto w-full max-w-3xl px-4 py-8">
         <div className="rounded-lg border p-6">

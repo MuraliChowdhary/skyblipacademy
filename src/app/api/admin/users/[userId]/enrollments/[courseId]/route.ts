@@ -7,8 +7,8 @@ import { requireAdmin } from "@/src/lib/require-admin";
 
 
 export const DELETE = withApiHandler< { userId: string; courseId: string }>(async (_req, { params } ) => {
-  const user = await requireAdmin(await auth());
-  const {courseId} = await params;
-  await revokeEnrollment(user.id, courseId);
+  await requireAdmin(await auth());
+  const {courseId,userId} = await params;
+  await revokeEnrollment(userId, courseId);
   return { revoked: true };
 });

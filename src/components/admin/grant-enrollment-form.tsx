@@ -25,7 +25,7 @@ export function GrantEnrollmentForm({ userId, courses }: { userId: string; cours
   return (
     <div className="flex gap-2">
       <Select value={courseId} onValueChange={(value) => setCourseId(value || "")}>
-        <SelectTrigger className="w-48"><SelectValue placeholder="Grant access to..." /></SelectTrigger>
+        <SelectTrigger className="w-64"><SelectValue placeholder="Grant access to..." /></SelectTrigger>
         <SelectContent>
           {courses.map((c) => <SelectItem key={c.id} value={c.id}>{c.title}</SelectItem>)}
         </SelectContent>

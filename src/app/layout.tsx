@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { SiteHeader } from '@/src/components/layout/site-header';
-import { SiteFooter } from '@/src/components/layout/site-footer';
+import NetworkStatus from "@/src/components/NetworkStatus";
 import { Geist } from "next/font/google";
 import { cn } from "@/src/lib/utils";
 import { AppSessionProvider } from '../components/providers/app-session-provider';
@@ -26,6 +25,7 @@ export default function MainLayout({
       <body className="bg-white text-slate-900 font-sans antialiased min-h-screen flex flex-col">
         <AppSessionProvider>
           <AppQueryProvider>
+            <NetworkStatus />
            <main className="flex-1">{children}</main>
            <Toaster/>
            </AppQueryProvider>

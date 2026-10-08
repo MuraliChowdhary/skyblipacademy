@@ -9,10 +9,9 @@ import { OverviewPanel } from "@/src/components/lesson/overview-panel";
 import { getLessonBreadcrumb, getLessonDetail } from "@/src/backend/services/course-progress.service";
 import { getLessonAssignment } from "@/src/backend/services/assignment.service";
 import { requireUser } from "@/src/lib/require-user";
-import { AppError } from "@/src/lib/app-error";
+import { AppError } from "@/src/lib/errors";
 // import { LessonBreadcrumb } from "@/src/components/lesson/lesson-breadcrumb";
 import { SetBreadcrumb } from "@/src/components/dashboard/set-breadcrumb";
-import { LessonTopbar } from "@/src/components/lesson/lesson-topbar";
 import { getLessonNav } from "@/src/backend/services/lesson-nav.service";
 
 export default async function LessonPage({
@@ -27,7 +26,7 @@ export default async function LessonPage({
   try {
     lesson = await getLessonDetail(userId, lessonId);
   } catch (err) {
-    const notFoundOrForbidden = err instanceof AppError && (err.status === 404 || err.status === 403);
+    const notFoundOrForbidden = err instanceof AppError && (err.statusCode === 404 || err.statusCode === 403);
     return (
       <main className="mx-auto w-full max-w-4xl px-4 py-8">
         <div className="rounded-lg border p-6">
@@ -60,7 +59,7 @@ export default async function LessonPage({
   if (lesson.kind === "OVERVIEW") {
     return (
           <>
-       <LessonTopbar nav={nav} />
+       {/* <LessonTopbar nav={nav} /> */}
       <main className="mx-auto w-full max-w-4xl px-4 py-8">
     <div className="space-y-6">
       <SetBreadcrumb items={breadcrumbItems} />

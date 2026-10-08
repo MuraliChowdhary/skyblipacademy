@@ -1,9 +1,6 @@
 export class DatabaseUnavailableError extends Error {
   constructor() {
-    super(
-      "We're having trouble connecting to the server. Please try again in a moment."
-    );
-
+    super("Database is currently unavailable.");
     this.name = "DatabaseUnavailableError";
   }
 }
