@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/src/lib/auth";
 
+// test
 const PROTECTED_PAGE_PREFIXES = ["/dashboard"];
 const PROTECTED_API_PREFIXES = ["/api/me"];
 
