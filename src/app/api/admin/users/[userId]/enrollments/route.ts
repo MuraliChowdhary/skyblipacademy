@@ -7,8 +7,8 @@ import { z } from "zod";
 
 
 export const POST = withApiHandler<{userId: string}>(async (req, { params }) => {
-  const user = await requireAdmin(await auth());
+  await requireAdmin(await auth());
   const { courseId } = z.object({ courseId: z.string() }).parse(await req.json());
   const {userId} = await params;
-  return await grantEnrollment(user.id,courseId);
+  return await grantEnrollment(userId,courseId);
 });
