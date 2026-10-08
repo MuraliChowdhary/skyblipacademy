@@ -59,6 +59,7 @@ export function SignupForm({
         email,
         password,
         phone,
+        role : "STUDENT"
       }),
     });
 
