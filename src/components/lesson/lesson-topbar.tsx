@@ -81,20 +81,33 @@ export function LessonTopbar({ nav }: { nav: LessonNav }) {
       </nav>
 
       <div className="ml-auto flex items-center gap-2">
-        <Button variant="outline" size="icon" className="h-8 w-8" disabled={!nav.prevLessonId} asChild={!!nav.prevLessonId}>
-          {nav.prevLessonId ? (
-            <Link href={`/dashboard/lessons/${nav.prevLessonId}`}><ChevronLeft className="h-4 w-4" /></Link>
-          ) : (
+        {nav.prevLessonId ? (
+          <Link
+            href={`/dashboard/lessons/${nav.prevLessonId}`}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-input bg-background text-sm ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+            aria-label="Previous lesson"
+          >
             <ChevronLeft className="h-4 w-4" />
-          )}
-        </Button>
-        <Button variant="outline" size="icon" className="h-8 w-8" disabled={!nav.nextLessonId} asChild={!!nav.nextLessonId}>
-          {nav.nextLessonId ? (
-            <Link href={`/dashboard/lessons/${nav.nextLessonId}`}><ChevronRight className="h-4 w-4" /></Link>
-          ) : (
+          </Link>
+        ) : (
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-input bg-background text-sm opacity-50">
+            <ChevronLeft className="h-4 w-4" />
+          </span>
+        )}
+
+        {nav.nextLessonId ? (
+          <Link
+            href={`/dashboard/lessons/${nav.nextLessonId}`}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-input bg-background text-sm ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+            aria-label="Next lesson"
+          >
             <ChevronRight className="h-4 w-4" />
-          )}
-        </Button>
+          </Link>
+        ) : (
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-input bg-background text-sm opacity-50">
+            <ChevronRight className="h-4 w-4" />
+          </span>
+        )}
 
         <Button variant="outline" size="sm">
           <Link href={`/dashboard/courses/${nav.course.id}`}>Syllabus</Link>

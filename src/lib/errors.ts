@@ -59,11 +59,11 @@ export function isUniqueConstraintError(
     return false;
   }
 
-  // If no field is provided, any P2002 is considered unique violation.
   if (!field) {
     return true;
   }
 
+  // Prisma meta.target
   if (
     typeof error === "object" &&
     error !== null &&
@@ -80,12 +80,11 @@ export function isUniqueConstraintError(
     }
   }
 
-  /*
-   * Prisma 7 + driver adapters may not expose meta.target
-   * consistently. P2002 is still sufficient to identify the
-   * unique constraint violation.
-   */
-  return true;
+  // Prisma 7 / adapter fallback
+  const message =
+    error instanceof Error ? error.message : String(error);
+
+  return message.toLowerCase().includes(`user_${field.toLowerCase()}_key`);
 }
 
 /**

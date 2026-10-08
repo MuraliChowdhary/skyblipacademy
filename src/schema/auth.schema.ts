@@ -12,6 +12,7 @@ export const registerSchema = z.object({
     .string()
     .min(10, "Use at least 10 characters")
     .max(72, "Use at most 72 characters"),
+  role:z.enum(["ADMIN","STUDENT"])
 });
 export type RegisterInput = z.infer<typeof registerSchema>;
 

@@ -1,3 +1,4 @@
+import { UserRole } from "@/src/generated/prisma";
 import type { Db } from "@/src/lib/prisma";
 
 export const PUBLIC_USER_SELECT = {
@@ -97,6 +98,7 @@ export function create(
     email: string;
     passwordHash: string;
     phone?: string;
+    role:UserRole
   },
 ) {
   return db.user.create({

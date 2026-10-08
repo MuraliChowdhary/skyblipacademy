@@ -10,5 +10,6 @@ import { withApiHandler } from "@/src/lib/api-handler";
 // testable without spinning up HTTP at all (see tests/unit next).
 export const POST = withApiHandler(async (req) => {
   const body = await req.json();
+  console.log(body)
   return registerUser(body);
 });

@@ -51,20 +51,31 @@ export async function registerUser(input: unknown) {
       name: data.name,
       email: data.email,
       passwordHash,
-      phone: data.phone
+      phone: data.phone,
+      role : data.role
     });
     logger.info({ userId: user.id }, "user.registered");
     return user;
-  } catch (err) {
-    if (isUniqueConstraintError(err, "email")) {
-      throw new AppError(
-        "EMAIL_TAKEN",
-        "An account with this email already exists.",
-        409,
-      );
-    }
-    throw err;
+  } 
+  catch (err) {
+  if (isUniqueConstraintError(err, "email")) {
+    throw new AppError(
+      "EMAIL_TAKEN",
+      "An account with this email already exists.",
+      409,
+    );
   }
+
+  if (isUniqueConstraintError(err, "phone")) {
+    throw new AppError(
+      "PHONE_TAKEN",
+      "An account with this phone number already exists.",
+      409,
+    );
+  }
+
+  throw err;
+}
 }
 
 // Used only by lib/auth.ts's Credentials authorize() — keeps NextAuth
